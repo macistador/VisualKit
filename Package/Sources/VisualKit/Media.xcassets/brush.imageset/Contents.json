@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "filename" : "brush.png",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "left" : 300,
+          "right" : 217
+        },
+        "center" : {
+          "mode" : "stretch",
+          "width" : 400
+        },
+        "mode" : "3-part-horizontal"
+      }
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
+  }
+}
