@@ -25,10 +25,14 @@ public struct MessageBannerView: View {
     
     let message: String
     let kind: Kind
-    
-    public init(message: String, kind: Kind = .error) {
+    let cornerRadius: Double
+    let borderWidth: Double
+
+    public init(message: String, kind: Kind = .error, cornerRadius: Double = 20, borderWidth: Double = 1) {
         self.message = message
         self.kind = kind
+        self.cornerRadius = cornerRadius
+        self.borderWidth = borderWidth
     }
     
     public var body: some View {
@@ -39,11 +43,11 @@ public struct MessageBannerView: View {
             .padding(.vertical, 10)
             .background {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(kind.color)
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(kind.color, lineWidth: borderWidth)
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .inset(by: borderWidth / 2)
                         .fill(kind.color.opacity(0.3))
-                        .padding(1)
                 }
             }
     }

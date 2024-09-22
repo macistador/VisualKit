@@ -180,7 +180,7 @@ struct GenericButtonDemo: View {
             .padding()
             .navigationTitle("GenericButton")
         }
-        .defaultScrollAnchor(.bottom)
+//        .defaultScrollAnchor(.bottom)
     }
     
     private let someSpecificColors = GenericButton

@@ -45,6 +45,8 @@ struct TextBadgeViewDemo: View {
                     Spacer()
                     Slider(value: $borderWidth, in: (0...10.0), step: 1)
                         .containerRelativeFrame(.horizontal) { length, _ in length * 0.4 }
+                    Text("\(Int(borderWidth))")
+                        .frame(width: 25)
                 }
                 
                 HStack {
@@ -52,6 +54,8 @@ struct TextBadgeViewDemo: View {
                     Spacer()
                     Slider(value: $cornerRadius, in: (0...30.0), step: 1)
                         .containerRelativeFrame(.horizontal) { length, _ in length * 0.4 }
+                    Text("\(Int(cornerRadius))")
+                        .frame(width: 25)
                 }
                 
                 HStack {
@@ -59,6 +63,8 @@ struct TextBadgeViewDemo: View {
                     Spacer()
                     Slider(value: $fontSize, in: (5...60.0), step: 1)
                         .containerRelativeFrame(.horizontal) { length, _ in length * 0.4 }
+                    Text("\(Int(fontSize))")
+                        .frame(width: 25)
                 }
                 
                 HStack {
@@ -66,6 +72,8 @@ struct TextBadgeViewDemo: View {
                     Spacer()
                     Slider(value: $minWidth, in: (0...300.0), step: 1)
                         .containerRelativeFrame(.horizontal) { length, _ in length * 0.4 }
+                    Text("\(Int(minWidth))")
+                        .frame(width: 35)
                 }
             }
             .padding()
