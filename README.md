@@ -24,6 +24,10 @@ Contains generic SwiftUI components and view modifiers.
 - [x] Rays effect
 - [x] Shine effect
 
+<p align="center">
+  <img src="https://github.com/macistador/VisualKit/blob/main/demo.gif" />
+</p>
+
 ## Requirements
 
 - iOS 15.0+
@@ -52,4 +56,4 @@ VisualKit is developed and maintained by Michel-André Chirita. You can follow m
 
 ## License
 
-VisualKit is released under the MIT license. [See LICENSE](https://github.com/macistador/permissionskit/blob/master/LICENSE) for details.
+VisualKit is released under the MIT license. [See LICENSE](https://github.com/macistador/MediasKit/blob/master/LICENSE) for details.
