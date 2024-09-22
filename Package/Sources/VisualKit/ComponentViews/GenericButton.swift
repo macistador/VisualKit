@@ -32,14 +32,14 @@ public struct GenericButton: View {
         let disabledButtonText: Color
         
         public init(primaryButton: Color? = nil, secondaryButton: Color? = nil, disabledButton: Color? = nil, destructiveButton: Color? = nil, primaryButtonText: Color? = nil, secondaryButtonText: Color? = nil, tertiaryButtonText: Color? = nil, disabledButtonText: Color? = nil) {
-            self.primaryButton = primaryButton ?? Color(red: 103/255, green: 255/255, blue: 108/255)
-            self.secondaryButton = secondaryButton ?? Color(red: 102/255, green: 102/255, blue: 102/255)
-            self.disabledButton = disabledButton ?? Color(red: 178/255, green: 178/255, blue: 178/255, opacity: 0.5)
+            self.primaryButton = primaryButton ?? Color("primaryButton", bundle: .module)
+            self.secondaryButton = secondaryButton ?? Color("secondaryButton", bundle: .module)
+            self.disabledButton = disabledButton ?? Color("disabledButton", bundle: .module)
             self.destructiveButton = destructiveButton ?? Color.red
-            self.primaryButtonText = primaryButtonText ?? Color(red: 0/255, green: 0/255, blue: 0/255)
-            self.secondaryButtonText = secondaryButtonText ?? Color(red: 26/255, green: 26/255, blue: 26/255)
-            self.tertiaryButtonText = tertiaryButtonText ?? Color(red: 26/255, green: 26/255, blue: 26/255)
-            self.disabledButtonText = disabledButtonText ?? Color(red: 160/255, green: 160/255, blue: 160/255)
+            self.primaryButtonText = primaryButtonText ?? Color("primaryButtonText", bundle: .module)
+            self.secondaryButtonText = secondaryButtonText ?? Color("secondaryButtonText", bundle: .module)
+            self.tertiaryButtonText = tertiaryButtonText ?? Color("tertiaryButtonText", bundle: .module)
+            self.disabledButtonText = disabledButtonText ?? Color("disabledButtonText", bundle: .module)
         }
     }
     
@@ -226,19 +226,21 @@ public struct GenericButton: View {
 }
 
 #Preview {
-    GenericButton(title: "Go", state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, reliefEffect: false, action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Destructive", style: .primary(destructive: true), state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Secondary", style: .secondary(destructive: false), state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Secondary with long text", style: .secondary(destructive: true), state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Tertiary", style: .tertiary(destructive: false), state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
-    GenericButton(title: "Tertiary destructive", style: .tertiary(destructive: true), state: .constant(.enabled), action: {})
-        .padding(.horizontal, 40)
+    Group {
+        GenericButton(title: "Go", state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, reliefEffect: false, action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Destructive", style: .primary(destructive: true), state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Secondary", style: .secondary(destructive: false), state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Secondary with long text", style: .secondary(destructive: true), state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Tertiary", style: .tertiary(destructive: false), state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+        GenericButton(title: "Tertiary destructive", style: .tertiary(destructive: true), state: .constant(.enabled), action: {})
+            .padding(.horizontal, 40)
+    }
 }
 

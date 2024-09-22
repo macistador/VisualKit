@@ -184,8 +184,8 @@ struct GenericButtonDemo: View {
     }
     
     private let someSpecificColors = GenericButton
-        .Colors(primaryButton: Color.black,
-                primaryButtonText: Color.white)
+        .Colors(primaryButton: Color.primaryButton,
+                primaryButtonText: Color.primaryButtonText)
 }
 
 #Preview {
