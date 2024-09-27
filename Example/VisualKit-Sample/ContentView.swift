@@ -41,6 +41,36 @@ struct ContentView: View {
                     } label: {
                         Text("TextBadgeView")
                     }
+                    
+                    NavigationLink {
+                        AnimatedTextFieldDemo()
+                    } label: {
+                        Text("AnimatedTextField")
+                    }
+                    
+                    NavigationLink {
+                        TitleViewDemo()
+                    } label: {
+                        Text("TitleView")
+                    }
+                    
+                    NavigationLink {
+                        ChipsStackDemo()
+                    } label: {
+                        Text("ChipsStack")
+                    }
+                    
+                    NavigationLink {
+                        SendMailViewDemo()
+                    } label: {
+                        Text("SendMailView")
+                    }
+                    
+                    NavigationLink {
+                        DoubleGridDemo()
+                    } label: {
+                        Text("DoubleGrid")
+                    }
                 }
                 
                 Section(header: Text("View Modifiers")) {
@@ -60,6 +90,12 @@ struct ContentView: View {
                         ShineEffectDemo()
                     } label: {
                         Text("ShineEffect")
+                    }
+                    
+                    NavigationLink {
+                        DistorsionEffectDemo()
+                    } label: {
+                        Text("DistorsionEffect")
                     }
                 }
             }

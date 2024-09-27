@@ -13,8 +13,16 @@ struct ShineEffectDemo: View {
         VStack {
             Spacer()
 
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.blue)
+            Circle()
+                .fill(.clear)
+                .frame(width: 100)
+                .shineEffect(shape: .circle, borderWidth: 5)
+                .frame(height: 350)
+            
+            Spacer()
+
+            ShineEffect(content: RoundedRectangle(cornerRadius: 40), borderWidth: 3)
+                .frame(height: 250)
 
             Spacer()
         }

@@ -20,12 +20,14 @@ public struct RaysEffectModifier: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .overlay(alignment: .center) {
-                RoundedRectangle(cornerRadius: 3)
-                    .fill(.white)
-                    .frame(width: 100, height: 4)
-                    .scaleEffect(x: 0.1, y: 0.3)
-                    .rotationEffect(.degrees(30), anchor: .center)
-                    .offset(x: 0, y: 0)
+                ForEach(0...36, id: \.self) { id in
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(.white)
+                        .frame(width: 100, height: 4)
+                        .scaleEffect(x: didAppear ? 1.0 : 0.1, y: didAppear ? 1.0 : 0.3)
+                        .rotationEffect(.degrees(Double(id * 10)), anchor: .leading)
+                        .offset(x: 50, y: 0)
+                }
             }
             .onAppear {
                 withAnimation(.linear(duration: 1.0).repeatForever()) {
@@ -48,7 +50,7 @@ private struct DemoRaysEffectView: View {
             
             Circle()
                 .fill(.red)
-                .frame(width: 150)
+                .frame(width: 250)
                 .raysEffect()
             
             Spacer()

@@ -99,6 +99,11 @@ public struct ShineEffect<Content: InsettableShape>: View {
     @State private var animateImpulse = false
     @State private var animPercentCompletion = 0.0 // 1.0 fin anim bgd
     
+    public init(content: Content, borderWidth: Double = 50) {
+        self.content = content
+        self.borderWidth = borderWidth
+    }
+    
     public var body: some View {
         TimelineView(.animation) { time in
             ZStack {

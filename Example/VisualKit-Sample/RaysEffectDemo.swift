@@ -13,8 +13,10 @@ struct RaysEffectDemo: View {
         VStack {
             Spacer()
 
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.blue)
+            Circle()
+                .fill(.red)
+                .frame(width: 250)
+                .raysEffect()
 
             Spacer()
         }

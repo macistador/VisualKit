@@ -10,17 +10,21 @@ import VisualKit
 
 struct DragIndicatorViewDemo: View {
     var body: some View {
-        VStack {
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.blue)
-                .overlay(alignment: .bottom) {
-                    DragIndicatorView()
-                        .padding(.bottom)
-                }
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.red)
+        ScrollView {
+            VStack {
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(.gray)
+                    .frame(height: 600)
+                    .overlay(alignment: .bottom) {
+                        DragIndicatorView(color: .red)
+                            .padding(.bottom)
+                    }
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(.gray)
+                    .frame(height: 600)
+            }
+            .padding()
         }
-        .padding()
         .navigationTitle("DragIndicatorView")
     }
 }

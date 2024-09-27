@@ -13,7 +13,9 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "VisualKit"),
-
+            name: "VisualKit",
+            resources: [
+                .copy("ViewModifiers/Shaders.metal")]
+        )
     ]
 )
