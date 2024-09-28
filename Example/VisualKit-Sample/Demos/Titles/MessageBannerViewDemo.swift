@@ -15,7 +15,6 @@ struct MessageBannerViewDemo: View {
 
     var body: some View {
         VStack {
-            
             VStack(spacing: 40) {
                 MessageBannerView(message: "Something happen that you should be informed", kind: .info)
             }

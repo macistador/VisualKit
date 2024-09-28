@@ -37,9 +37,9 @@ struct GenericButtonDemo: View {
                               cornerRadius: 5,
                               borderWidth: 0,
                               fontSize: 20,
-                              reliefEffect: false,
-                              haptic: false,
-                              animated: false) {
+                              hasRelief: false,
+                              hasHaptic: false,
+                              isAnimated: false) {
                     print("Button tapped")
                 }
                               .padding(.horizontal, 40)
@@ -91,7 +91,6 @@ struct GenericButtonDemo: View {
                 .pickerStyle(.segmented)
                 .padding(.vertical)
 
-                
                 VStack(spacing: 20) {
                     GenericButton(title: text,
                                   style: .primary(destructive: false),
@@ -99,9 +98,9 @@ struct GenericButtonDemo: View {
                                   cornerRadius: cornerRadius,
                                   borderWidth: borderWidth,
                                   fontSize: fontSize,
-                                  reliefEffect: relief,
-                                  haptic: haptic,
-                                  animated: animated) {
+                                  hasRelief: relief,
+                                  hasHaptic: haptic,
+                                  isAnimated: animated) {
                         print("Button tapped")
                     }
                                   .padding(.vertical)

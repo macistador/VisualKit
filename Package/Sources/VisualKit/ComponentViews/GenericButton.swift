@@ -15,9 +15,9 @@ public struct GenericButton: View {
     public static var cornerRadius: Double = 30.0
     public static var borderWidth: Double = 3.0
     public static var fontSize: (primary: Double, secondary: Double, tertiary: Double) = (primary: 24, secondary: 20, tertiary: 16)
-    public static var reliefEffect: Bool = true
-    public static var animated: Bool = true
-    public static var haptic: Bool = true
+    public static var hasRelief: Bool = true
+    public static var isAnimated: Bool = true
+    public static var hasHaptic: Bool = true
 
     // MARK: - Parameters
     
@@ -31,7 +31,14 @@ public struct GenericButton: View {
         let tertiaryButtonText: Color
         let disabledButtonText: Color
         
-        public init(primaryButton: Color? = nil, secondaryButton: Color? = nil, disabledButton: Color? = nil, destructiveButton: Color? = nil, primaryButtonText: Color? = nil, secondaryButtonText: Color? = nil, tertiaryButtonText: Color? = nil, disabledButtonText: Color? = nil) {
+        public init(primaryButton: Color? = nil,
+                    secondaryButton: Color? = nil,
+                    disabledButton: Color? = nil,
+                    destructiveButton: Color? = nil,
+                    primaryButtonText: Color? = nil,
+                    secondaryButtonText: Color? = nil,
+                    tertiaryButtonText: Color? = nil,
+                    disabledButtonText: Color? = nil) {
             self.primaryButton = primaryButton ?? Color("primaryButton", bundle: .module)
             self.secondaryButton = secondaryButton ?? Color("secondaryButton", bundle: .module)
             self.disabledButton = disabledButton ?? Color("disabledButton", bundle: .module)
@@ -95,13 +102,23 @@ public struct GenericButton: View {
     var cornerRadius: Double
     var borderWidth: Double
     var fontSize: Double
-    var reliefEffect: Bool
-    var animated: Bool
-    var haptic: Bool
+    var hasRelief: Bool
+    var isAnimated: Bool
+    var hasHaptic: Bool
     var action: () -> Void
     @State private var animate: Bool = false
 
-    public init(title: String, style: Style = .primary(destructive: false), state: Binding<ButtonState> = .constant(.enabled), colors: Colors = GenericButton.colors, cornerRadius: Double = GenericButton.cornerRadius, borderWidth: Double = GenericButton.borderWidth, fontSize: Double? = nil, reliefEffect: Bool = GenericButton.reliefEffect, haptic: Bool = GenericButton.haptic, animated: Bool = GenericButton.animated, action: @escaping () -> Void) {
+    public init(title: String,
+                style: Style = .primary(destructive: false),
+                state: Binding<ButtonState> = .constant(.enabled),
+                colors: Colors = GenericButton.colors,
+                cornerRadius: Double = GenericButton.cornerRadius,
+                borderWidth: Double = GenericButton.borderWidth,
+                fontSize: Double? = nil,
+                hasRelief: Bool = GenericButton.hasRelief,
+                hasHaptic: Bool = GenericButton.hasHaptic,
+                isAnimated: Bool = GenericButton.isAnimated,
+                action: @escaping () -> Void) {
         self.title = title
         self.style = style
         self.cornerRadius = cornerRadius
@@ -109,9 +126,9 @@ public struct GenericButton: View {
         self.fontSize = fontSize ?? style.fontSize
         self._state = state
         self.colors = colors
-        self.reliefEffect = reliefEffect
-        self.animated = animated
-        self.haptic = haptic
+        self.hasRelief = hasRelief
+        self.isAnimated = isAnimated
+        self.hasHaptic = hasHaptic
         self.action = action
     }
     
@@ -119,21 +136,19 @@ public struct GenericButton: View {
         HStack {
             Spacer()
             Button {
-                action()
-                
-                if animated {
-                    withAnimation(.bouncy(duration: 0.3)) {
-                        animate = true
-                    }
+                if isAnimated {
+                    animate = true
                 }
                 
-                if haptic {
+                if hasHaptic {
                     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
                     hapticImpact.impactOccurred()
                 }
+                
+                action()
             } label: {
                 ZStack {
-                    if reliefEffect, state == .enabled {
+                    if hasRelief, state == .enabled {
                         ZStack {
                             if backgroundColor != .clear {
                                 RoundedRectangle(cornerRadius: cornerRadius)
@@ -165,7 +180,8 @@ public struct GenericButton: View {
                                 .padding(.vertical, 5)
                         }
                     }
-                    .offset(y: (animate && style.hasReflief && reliefEffect) ? 3 + borderWidth * 0.7 : 0)
+                    .offset(y: (animate && style.hasReflief && hasRelief) ? 3 + borderWidth * 0.7 : 0)
+                    .animation(.bouncy(duration: 0.3), value: animate)
                 }
                 .padding([.horizontal, .top])
             }
@@ -194,7 +210,7 @@ public struct GenericButton: View {
     
     private var borderColor: Color {
         switch style {
-        case .primary: .black
+        case .primary: .black // colors.primaryButton
         case .secondary(let isDestructive): isDestructive ? colors.destructiveButton : colors.secondaryButton
         case .tertiary: .clear
         }
@@ -229,7 +245,7 @@ public struct GenericButton: View {
     Group {
         GenericButton(title: "Go", state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, reliefEffect: false, action: {})
+        GenericButton(title: "Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, hasRelief: false, action: {})
             .padding(.horizontal, 40)
         GenericButton(title: "Destructive", style: .primary(destructive: true), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)

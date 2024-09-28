@@ -8,28 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var buttonsSection = true
+    @State var containersSection = true
+    @State var textSection = true
+    @State var decorationsSection = true
+    @State var viewsSection = true
+    @State var othersSection = true
+    @State var viewModifiersSection = true
+
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Components")) {
-                    NavigationLink {
-                        BrushViewDemo()
-                    } label: {
-                        Text("BrushView")
-                    }
+                Section("Buttons", isExpanded: $buttonsSection) {
+//                    DisclosureGroup("sub cat") {}
 
-                    NavigationLink {
-                        DragIndicatorViewDemo()
-                    } label: {
-                        Text("DragIndicatorView")
-                    }
-                    
-                    NavigationLink {
-                        MessageBannerViewDemo()
-                    } label: {
-                        Text("ErrorMessageView")
-                    }
-                    
                     NavigationLink {
                         GenericButtonDemo()
                     } label: {
@@ -37,9 +30,37 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
-                        TextBadgeViewDemo()
+                        GlyphButtonDemo()
                     } label: {
-                        Text("TextBadgeView")
+                        Text("GlyphButton")
+                    }
+                    
+                    NavigationLink {
+                        TextButtonDemo()
+                    } label: {
+                        Text("TextButton")
+                    }
+                }
+                
+                Section("Containers", isExpanded: $containersSection) {
+                    NavigationLink {
+                        DoubleGridDemo()
+                    } label: {
+                        Text("DoubleGrid")
+                    }
+                    
+                    NavigationLink {
+                        ChipsStackDemo()
+                    } label: {
+                        Text("ChipsStack")
+                    }
+                }
+                
+                Section("Text / titles", isExpanded: $textSection) {
+                    NavigationLink {
+                        TitleViewDemo()
+                    } label: {
+                        Text("TitleView")
                     }
                     
                     NavigationLink {
@@ -49,31 +70,49 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
-                        TitleViewDemo()
+                        TextBadgeViewDemo()
                     } label: {
-                        Text("TitleView")
+                        Text("TextBadgeView")
                     }
                     
                     NavigationLink {
-                        ChipsStackDemo()
+                        MessageBannerViewDemo()
                     } label: {
-                        Text("ChipsStack")
+                        Text("ErrorMessageView")
+                    }
+                }
+                
+                Section("Decorations", isExpanded: $decorationsSection) {
+                    NavigationLink {
+                        BrushViewDemo()
+                    } label: {
+                        Text("BrushView")
                     }
                     
+                    NavigationLink {
+                        DragIndicatorViewDemo()
+                    } label: {
+                        Text("DragIndicatorView")
+                    }
+                }
+                
+                Section("Screens", isExpanded: $viewsSection) {
+                    NavigationLink {
+                        ForceUpdateDemo()
+                    } label: {
+                        Text("ForceUpdateView")
+                    }
+                }
+                
+                Section("Others", isExpanded: $othersSection) {
                     NavigationLink {
                         SendMailViewDemo()
                     } label: {
                         Text("SendMailView")
                     }
-                    
-                    NavigationLink {
-                        DoubleGridDemo()
-                    } label: {
-                        Text("DoubleGrid")
-                    }
                 }
                 
-                Section(header: Text("View Modifiers")) {
+                Section("ViewModifiers", isExpanded: $viewModifiersSection) {
                     NavigationLink {
                         PlaceholderEffectDemo()
                     } label: {
@@ -99,9 +138,25 @@ struct ContentView: View {
                     }
                 }
             }
+            .listStyle(.sidebar)
             .navigationTitle("VisualKit")
             .navigationBarTitleDisplayMode(.large)
-            .padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        buttonsSection.toggle()
+                        containersSection.toggle()
+                        textSection.toggle()
+                        decorationsSection.toggle()
+                        viewsSection.toggle()
+                        othersSection.toggle()
+                        viewModifiersSection.toggle()
+                    } label: {
+                        Text("Toggle all")
+                    }
+
+                }
+            }
         }
     }
 }

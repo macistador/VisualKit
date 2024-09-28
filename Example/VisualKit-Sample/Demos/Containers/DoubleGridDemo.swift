@@ -17,7 +17,6 @@ struct DoubleGridDemo: View {
     
     private let items = [Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item(), Item()]
     @State private var layoutIsTop: Bool = true
-//    @State private var gridState: DoubleGridViewState = .loading
 
     var body: some View {
         /// Simplest version
@@ -29,7 +28,6 @@ struct DoubleGridDemo: View {
 
         /// With all parameters
         DoubleGrid(items: items,
-//                   state: $gridState,
                    layout: layoutIsTop ? .top : .bottom,
                    cellHighlight: .stroke(color: .red, cornerRadius: 20),
                    mainGridBackgroundColor: .black,
@@ -42,10 +40,7 @@ struct DoubleGridDemo: View {
             Cell(item: item, showText: false)
         }
         .ignoresSafeArea(edges: .bottom)
-//        .task {
-//            try? await Task.sleep(for: .seconds(1))
-//            self.gridState = .loaded
-//        }
+        .navigationTitle("DoubleGrid")
     }
 }
 

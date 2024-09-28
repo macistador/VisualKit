@@ -18,6 +18,7 @@ struct AnimatedTextFieldDemo: View {
             AnimatedTextField(text: $text)
         }
         .padding()
+        .navigationTitle("AnimatedTextField")
     }
 }
 

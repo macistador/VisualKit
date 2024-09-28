@@ -64,6 +64,7 @@ struct DistorsionEffectDemo: View {
             }
         }
         .background(.gray)
+        .navigationTitle("DistortionEffect")
     }
 }
 

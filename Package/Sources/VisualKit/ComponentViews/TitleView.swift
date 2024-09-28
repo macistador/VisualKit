@@ -12,20 +12,21 @@ public struct TitleView: View {
     var title: String
     var titleSize: Double
     var subtitle: String?
-    var subtitleSize: Double = 16
-    var alignment: HorizontalAlignment = .center
-    var enabled: Bool = true
-    var customFont: String? = nil
-    var color: Color = .red
+    var subtitleSize: Double
+    var color: Color
+    var alignment: HorizontalAlignment
+    var effect: Bool
+    var customFont: String?
     @State private var animate: Bool = false
 
-    public init(title: String, titleSize: Double = 35, subtitle: String? = nil, subtitleSize: Double = 16, alignment: HorizontalAlignment = .center, enabled: Bool = true, customFont: String? = nil) {
+    public init(title: String, titleSize: Double = 35, subtitle: String? = nil, subtitleSize: Double = 16, color: Color = .black, alignment: HorizontalAlignment = .center, effect: Bool = true, customFont: String? = nil) {
         self.title = title
         self.titleSize = titleSize
         self.subtitle = subtitle
         self.subtitleSize = subtitleSize
+        self.color = color
         self.alignment = alignment
-        self.enabled = enabled
+        self.effect = effect
         self.customFont = customFont
     }
     
@@ -33,13 +34,12 @@ public struct TitleView: View {
         VStack(alignment: alignment, spacing: 5) {
             Text(title)
                 .font(font)
-                .rotationEffect(.degrees(-3))
+                .rotationEffect(.degrees(effect ? -3 : 0))
                 .textCase(.uppercase)
                 .multilineTextAlignment(textAlignment)
-//                .lineSpacing(-20)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(color)
                 .overlay {
-                    if enabled {
+                    if effect {
                         RadialGradient(colors: [color, color.opacity(0.5)], center: UnitPoint(x: animate ? 0.3 : 0.8, y: animate ? 0.4 : 0.7), startRadius: 20, endRadius: 200)
                             .animation(.easeInOut(duration: 3.0).repeatForever(autoreverses: true), value: animate)
                             .mask {
@@ -47,7 +47,6 @@ public struct TitleView: View {
                                     .textCase(.uppercase)
                                     .font(font)
                                     .multilineTextAlignment(textAlignment)
-//                                    .lineSpacing(-20)
                                     .foregroundStyle(color)
                             }
                     }
@@ -69,7 +68,7 @@ public struct TitleView: View {
         if let customFont {
             Font.custom(customFont, size: titleSize)
         } else {
-            Font.system(size: enabled ? titleSize : titleSize - 10, weight: .black, design: .rounded)
+            Font.system(size: /* effect ?*/ titleSize /*: titleSize - 10*/, weight: .black, design: .rounded)
         }
     }
     

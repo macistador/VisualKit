@@ -29,6 +29,7 @@ struct SendMailViewDemo: View {
             }
             Spacer()
         }
+        .navigationTitle("SendMailView")
         .sheet(isPresented: $showMailView) {
             SendMailView(subject: "[User feedback]",
                          message: emailContent(),

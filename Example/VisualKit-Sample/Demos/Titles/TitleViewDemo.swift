@@ -15,6 +15,7 @@ struct TitleViewDemo: View {
             TitleView(title: "Amazing", titleSize: 60, subtitle: "This is an incredible subtitle", subtitleSize: 30, alignment:  .leading)
             Spacer()
         }
+        .navigationTitle("TitleView")
     }
 }
 
