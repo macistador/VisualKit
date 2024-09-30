@@ -8,14 +8,14 @@
 import SwiftUI
 
 public struct OffsetScrollView<Content: View>: View {
-    var axes: Axis.Set = [.vertical]
+    var axes: Axis.Set
     var showsIndicators: Bool
     @Binding var offset: CGPoint
     var content: () -> Content
     
     private let coordinateSpaceName = UUID()
     
-    public init(axes: Axis.Set, showsIndicators: Bool = true, offset: Binding<CGPoint>, @ViewBuilder content: @escaping () -> Content) {
+    public init(axes: Axis.Set = [.vertical], showsIndicators: Bool = true, offset: Binding<CGPoint>, @ViewBuilder content: @escaping () -> Content) {
         self.axes = axes
         self.showsIndicators = showsIndicators
         self._offset = offset

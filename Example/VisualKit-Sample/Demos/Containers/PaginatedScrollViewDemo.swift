@@ -15,21 +15,27 @@ struct PaginatedScrollViewDemo: View {
         let content: String
     }
     
-    private let items = [Item(content: "1"), Item(content: "2"), Item(content: "3"), Item(content: "4"), Item(content: "5")]
+    let axes: Axis.Set
+    private let items = (0...100).map { Item(content: "\($0)") }
     @State private var scrollOffset: Double = 0
     @State private var screenScrollPercent: Double = 0
+    @State private var scrollContentLength: Double = 0
     @State private var hapticFeedbackValue = 0.0
 
     var body: some View {
         ZStack {
-            ParallaxBackground(background: .tileAndColor(tileImage: tileImage,
+            ParallaxBackground(axes: axes,
+                               length: scrollContentLength,
+                               background: .tileAndColor(tileImage: tileImage,
                                                          color: .green),
                                offset: $scrollOffset,
                                offsetMultiplier: 0.1)
             
-            PaginatedScrollView(items: items,
-                           scrollOffset: $scrollOffset,
-                           screenScrollPercent: $screenScrollPercent) { item, visibilityPercent in
+            PaginatedScrollView(axes: axes,
+                                items: items,
+                                scrollOffset: $scrollOffset,
+                                screenScrollPercent: $screenScrollPercent,
+                                scrollContentLength: $scrollContentLength) { item, visibilityPercent in
                 CardView(content: item.content)
                     .rotation3DEffect(
                         .degrees(visibilityPercent * 47),
@@ -44,14 +50,16 @@ struct PaginatedScrollViewDemo: View {
             }
             
             RoundedRectangle(cornerRadius: 80)
-                .stroke(.white.opacity(0.8), lineWidth: 50 * sin(.pi * screenScrollPercent))
+                .stroke(.red/*.white.opacity(0.8)*/, lineWidth: 50 * sin(.pi * screenScrollPercent))
                 .ignoresSafeArea()
                 .blur(radius: 20)
                 .allowsHitTesting(false)
         }
         .navigationTitle("PaginatedScrollView")
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
         .onChange(of: scrollOffset) { oldValue, newValue in
-            guard abs(newValue * 0.05 - hapticFeedbackValue) > 1 else { return }
+            guard abs(newValue * 0.05 - hapticFeedbackValue) > 10 else { return }
             hapticFeedbackValue = newValue * 0.05
         }
         .sensoryFeedback(trigger: hapticFeedbackValue) { oldValue, newValue in
@@ -67,12 +75,12 @@ struct PaginatedScrollViewDemo: View {
 }
 
 #Preview {
-    PaginatedScrollViewDemo()
+    PaginatedScrollViewDemo(axes: .vertical)
 }
 
 private struct CardView: View {
     let content: String
-    @Environment(\.scrollScreenOffset) var offset: Double
+    @Environment(\.scrollScreenOffset) var offsetPercent: Double
         
     var body: some View {
         ZStack {
@@ -82,27 +90,24 @@ private struct CardView: View {
         }
         .padding()
 //        .onAppear {
-//            print("CELL FINAL OFFSET: \(offset)")
+//            print("CELL FINAL OFFSET: \(offsetPercent)")
 //        }
-//        .onChange(of: offset) { oldValue, newValue in
-//            print("CELL FINAL OFFSET: \(offset)")
+//        .onChange(of: offsetPercent) { oldValue, newValue in
+//            print("CELL FINAL OFFSET: \(newValue)")
 //        }
     }
     
+    @ViewBuilder
     private var background: some View {
-        Group {
-            ZStack {
-                Rectangle()
-                    .fill(Color.blue.opacity(0.5))
-                    .stroke(.black, lineWidth: 2.0)
-            }
-            .offset(x: -10 + offset * 800,
-                    y: +10 - offset * 800)
-            
-            Rectangle()
-                .fill(Color.blue)
-                .stroke(.black, lineWidth: 4.0)
-        }
+        Rectangle()
+            .fill(Color.blue.opacity(0.5))
+            .stroke(.black, lineWidth: 2.0)
+            .offset(x: -10 + offsetPercent * 800,
+                    y: +10 - offsetPercent * 500)
+        
+        Rectangle()
+            .fill(Color.blue)
+            .stroke(.black, lineWidth: 4.0)
     }
 }
 

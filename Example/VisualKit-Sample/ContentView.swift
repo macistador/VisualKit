@@ -56,9 +56,15 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
-                        PaginatedScrollViewDemo()
+                        PaginatedScrollViewDemo(axes: .vertical)
                     } label: {
-                        Text("PaginatedScrollView")
+                        Text("PaginatedScrollView (vertical)")
+                    }
+                    
+                    NavigationLink {
+                        PaginatedScrollViewDemo(axes: .horizontal)
+                    } label: {
+                        Text("PaginatedScrollView (horizontal)")
                     }
                     
                     NavigationLink {

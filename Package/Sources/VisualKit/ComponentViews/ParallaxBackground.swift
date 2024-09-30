@@ -15,11 +15,20 @@ public struct ParallaxBackground: View {
         case tileAndImage(tileImage: UIImage, bgdImage: UIImage)
     }
     
+    let axes: Axis.Set
+    let length: Double
     var background: Background
     @Binding var offset: Double
     let offsetMultiplier: Double
-    
-    public init(background: Background, offset: Binding<Double>, offsetMultiplier: Double = 0.1) {
+    private var isVertical: Bool { axes == .vertical }
+
+    public init(axes: Axis.Set,
+                length: Double = 50,
+                background: Background,
+                offset: Binding<Double>,
+                offsetMultiplier: Double = 0.1) {
+        self.axes = axes
+        self.length = length
         self.background = background
         self._offset = offset
         self.offsetMultiplier = offsetMultiplier
@@ -31,34 +40,32 @@ public struct ParallaxBackground: View {
             Color.clear
                 .ignoresSafeArea()
                 .overlay {
-                    Image(uiImage: tileImage)
-                        .resizable(resizingMode: .tile)
-                        .opacity(0.1)
-                        .frame(height: 5000)
-                        .offset(y: -100 + offset * offsetMultiplier)
+                    overlayTile(tileImage: tileImage)
                 }
         case .tileAndColor(let tileImage, let color):
             color
                 .ignoresSafeArea()
                 .overlay {
-                    Image(uiImage: tileImage)
-                        .resizable(resizingMode: .tile)
-                        .opacity(0.1)
-                        .frame(height: 5000)
-                        .offset(y: -100 + offset * offsetMultiplier)
+                    overlayTile(tileImage: tileImage)
                 }
         case .tileAndImage(let tileImage, let bgdImage):
             Image(uiImage: bgdImage)
                 .resizable()
                 .ignoresSafeArea()
                 .overlay {
-                    Image(uiImage: tileImage)
-                        .resizable(resizingMode: .tile)
-                        .opacity(0.1)
-                        .frame(height: 5000)
-                        .offset(y: -100 + offset * offsetMultiplier)
+                    overlayTile(tileImage: tileImage)
                 }
         }
+    }
+    
+    private func overlayTile(tileImage: UIImage) -> some View {
+        Image(uiImage: tileImage)
+            .resizable(resizingMode: .tile)
+            .opacity(0.1)
+            .frame(width: isVertical ? 1000 : length,
+                   height: isVertical ? length : 3000)
+            .offset(x: isVertical ? 0 : -100 + offset * offsetMultiplier,
+                    y: isVertical ? -100 + offset * offsetMultiplier : 0)
     }
 }
 

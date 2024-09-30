@@ -7,54 +7,57 @@
 
 import SwiftUI
 
-/*
- TODO:
- - gérer axe horizontal
- */
-
 @available(iOS 17.0, *)
 public struct PaginatedScrollView<Content: View, Item: Identifiable>: View {
     
+    let axes: Axis.Set
     @State var items: [Item]
     @Binding var scrollOffset: Double
     @Binding var screenScrollPercent: Double
+    @Binding var scrollContentLength: Double
     let cellsInsets: EdgeInsets
     let cellsSpacing: Double
     @ViewBuilder var cell: (_ item: Item, _ visibilityPercent: Double)->Content
-    @State private var scrollPageHeight = 0.0
+    @State private var scrollPageLength = 0.0
+    private var isVertical: Bool { axes == .vertical }
     
-    public init(items: [Item],
-         scrollOffset: Binding<Double>,
-         screenScrollPercent: Binding<Double>,
-         cellsInsets: EdgeInsets = .init(top: 20,
-                                         leading: 0,
-                                         bottom: 20,
-                                         trailing: 0),
-         cellsSpacing: Double = 40.0,
-         @ViewBuilder cell: @escaping (_ item: Item, _ visibilityPercent: Double)->Content) {
+    public init(axes: Axis.Set = .vertical,
+                items: [Item],
+                scrollOffset: Binding<Double> = .constant(0),
+                screenScrollPercent: Binding<Double> = .constant(0),
+                scrollContentLength: Binding<Double> = .constant(0),
+                cellsInsets: EdgeInsets? = nil,
+                cellsSpacing: Double? = nil,
+                @ViewBuilder cell: @escaping (_ item: Item, _ visibilityPercent: Double)->Content) {
+        self.axes = axes
         self.items = items
         self._scrollOffset = scrollOffset
         self._screenScrollPercent = screenScrollPercent
-        self.cellsInsets = cellsInsets
-        self.cellsSpacing = cellsSpacing
+        self._scrollContentLength = scrollContentLength
+        self.cellsInsets = cellsInsets ?? (axes == .vertical ? .init(top: 20, leading: 0, bottom: 20, trailing: 0) : .init(top: 0, leading: 20, bottom: 0, trailing: 20))
+        self.cellsSpacing = cellsSpacing ?? (axes == .vertical ? 100.0 : 0.0)
         self.cell = cell
     }
     
     public var body: some View {
         GeometryReader { containerGeometry in
             if #available(iOS 17, *) {
-                ScrollView(showsIndicators: false) {
+                ScrollView(axes, showsIndicators: false) {
                     ZStack {
                         scrollReader(with: containerGeometry)
-                        scrollContent(with: containerGeometry)
+                        stack {
+                            scrollContent(with: containerGeometry)
+                        }
                     }
                 }
                 .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
             } else {
-                ScrollView(showsIndicators: false) {
+                ScrollView(axes, showsIndicators: false) {
                     ZStack {
                         scrollReader(with: containerGeometry)
-                        scrollContent(with: containerGeometry)
+                        stack {
+                            scrollContent(with: containerGeometry)
+                        }
                     }
                 }
                 .scrollTargetBehavior(.viewAligned)
@@ -65,43 +68,60 @@ public struct PaginatedScrollView<Content: View, Item: Identifiable>: View {
     @ViewBuilder
     private func scrollReader(with containerGeometry: GeometryProxy) -> some View {
         GeometryReader { proxy in
-            let offset = proxy.frame(in: .named("scroll")).minY
+            let proxyFrame = proxy.frame(in: .named("scroll"))
+            let offset = isVertical ? proxyFrame.minY : proxyFrame.minX
             Color.clear
                 .preference(key: ScrollOffsetKey.self, value: offset)
+                .onAppear { scrollContentLength = isVertical ? proxy.size.height : proxy.size.width }
         }
-        .padding(.zero)
         .onPreferenceChange(ScrollOffsetKey.self) { value in
             scrollOffset = value
-            let initialOffset = containerGeometry.safeAreaInsets.top
-            let scrollPageOffset = (initialOffset - value).truncatingRemainder(dividingBy: scrollPageHeight)
-            screenScrollPercent = scrollPageHeight == 0 ? 0 : scrollPageOffset / scrollPageHeight
+            let safeAreaInsets = containerGeometry.safeAreaInsets
+            let initialOffset = isVertical ? safeAreaInsets.top : safeAreaInsets.leading
+            let scrollPageOffset = (initialOffset - value).truncatingRemainder(dividingBy: scrollPageLength + cellsSpacing)
+            screenScrollPercent = scrollPageLength == 0 ? 0 : scrollPageOffset / (scrollPageLength + cellsSpacing)
+//            print("Scroll percent: \(screenScrollPercent), pageOffset: \(scrollPageOffset)")
         }
-        .preference(key: ViewHeightKey.self, value: containerGeometry.frame(in: .global).height)
-        .onPreferenceChange(ViewHeightKey.self) { value in
-          scrollPageHeight = value
+        .preference(key: ViewLengthKey.self, value: isVertical ? containerGeometry.frame(in: .global).height : containerGeometry.frame(in: .global).width)
+        .onPreferenceChange(ViewLengthKey.self) { value in
+          scrollPageLength = value
+        }
+    }
+    
+    @ViewBuilder
+    private func stack<StackContent: View>(@ViewBuilder content: ()->StackContent) -> some View {
+        if isVertical {
+            LazyVStack(spacing: cellsSpacing) {
+                content()
+            }
+            .scrollTargetLayout()
+//            .padding(.bottom, cellsSpacing)
+        } else {
+            LazyHStack(spacing: cellsSpacing) {
+                content()
+            }
+            .scrollTargetLayout()
+//            .padding(.trailing, cellsSpacing)
         }
     }
     
     @ViewBuilder
     private func scrollContent(with containerGeometry: GeometryProxy) -> some View {
-        LazyVStack(spacing: cellsSpacing) {
-          ForEach(items) { item in
+        ForEach(items) { item in
             GeometryReader { geometry in
-                let initialOffset = containerGeometry.safeAreaInsets.top + cellsInsets.top
-                let offset = geometry.frame(in: .global).minY
-                let scrollPageOffset = (offset - initialOffset).truncatingRemainder(dividingBy: scrollPageHeight)
-                let percentOffset = scrollPageHeight == 0 ? 0 : scrollPageOffset / scrollPageHeight
+                let safeAreaInsets = containerGeometry.safeAreaInsets
+                let initialOffset = isVertical ? safeAreaInsets.top + cellsInsets.bottom : safeAreaInsets.leading + cellsInsets.trailing
+                let geometryFrame = geometry.frame(in: .global)
+                let offset = isVertical ? geometryFrame.minY : geometryFrame.minX
+                let pageLength = scrollPageLength + safeAreaInsets.top + cellsInsets.bottom
+                let scrollPageOffset = (offset - initialOffset).truncatingRemainder(dividingBy: pageLength)
+                let percentOffset = scrollPageLength == 0 ? 0 : scrollPageOffset / pageLength
                 cell(item, percentOffset)
                     .environment(\.scrollScreenOffset, percentOffset)
             }
             .padding(cellsInsets)
-            .containerRelativeFrame(.vertical, { length, _ in
-                length - (cellsInsets.top + cellsInsets.bottom)
-            })
-          }
+            .containerRelativeFrame(isVertical ? .vertical : .horizontal)
         }
-        .scrollTargetLayout()
-        .padding(.bottom, cellsSpacing)
     }
 }
 
@@ -122,7 +142,7 @@ private struct ScrollOffsetKey: PreferenceKey {
   }
 }
 
-private struct ViewHeightKey: PreferenceKey {
+private struct ViewLengthKey: PreferenceKey {
   static var defaultValue: Double = .zero
   static func reduce(value: inout Double, nextValue: () -> Double) {
     value = nextValue()
@@ -158,21 +178,20 @@ private struct CardView: View {
         .padding()
     }
     
+    @ViewBuilder
     private var background: some View {
-        Group {
-            ZStack {
-                Rectangle()
-                    .fill(Color.blue.opacity(0.5))
-                Rectangle()
-                    .stroke(.black, lineWidth: 2.0)
-            }
-            .offset(x: -10 + offset * 800,
-                    y: +10 - offset * 800)
-            
+        ZStack {
             Rectangle()
-                .fill(Color.blue)
+                .fill(Color.blue.opacity(0.5))
             Rectangle()
-                .stroke(.black, lineWidth: 4.0)
+                .stroke(.black, lineWidth: 2.0)
         }
+        .offset(x: -10 + offset * 800,
+                y: +10 - offset * 800)
+        
+        Rectangle()
+            .fill(Color.blue)
+        Rectangle()
+            .stroke(.black, lineWidth: 4.0)
     }
 }
