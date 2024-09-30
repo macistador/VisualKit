@@ -44,9 +44,21 @@ struct ContentView: View {
                 
                 Section("Containers", isExpanded: $containersSection) {
                     NavigationLink {
-                        DoubleGridDemo()
+                        DoubleGridDemo(layout: .bottom)
                     } label: {
-                        Text("DoubleGrid")
+                        Text("DoubleGrid (bottom)")
+                    }
+                    
+                    NavigationLink {
+                        DoubleGridDemo(layout: .top(reversed: true))
+                    } label: {
+                        Text("DoubleGrid (top)")
+                    }
+                    
+                    NavigationLink {
+                        PaginatedScrollViewDemo()
+                    } label: {
+                        Text("PaginatedScrollView")
                     }
                     
                     NavigationLink {

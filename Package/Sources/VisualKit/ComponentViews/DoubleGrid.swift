@@ -8,15 +8,16 @@
 import SwiftUI
 
 public enum DoubleGridLayout {
-    case top
+    case top(reversed: Bool)
     case bottom
+    
+    var isBottom: Bool {
+        switch self {
+        case .top: false
+        case .bottom: true
+        }
+    }
 }
-
-//public enum DoubleGridViewState {
-//    case loading
-//    case loaded
-//    case error(message: String)
-//}
 
 public enum DoubleGridCellHighlight {
     case background(color: Color)
@@ -24,15 +25,44 @@ public enum DoubleGridCellHighlight {
 }
 
 final class DoubleGridViewModel<Item: Identifiable>: ObservableObject {
+
+    struct FeedItem: Identifiable {
+        let id: Int
+        let itemId: Item.ID?
+        let content: Content
+        enum Content {
+            case cell(Item)
+            case empty
+        }
+    }
+
     @Published var datasource: [Item]
+    @Published var datasourceMini: [FeedItem]
     @Published var verticalScrollPosition: Int?
     @Published var mediaScrollPosition: Item.ID?
     @Published var gridIsExpanded = false
     let layout: DoubleGridLayout
 
     init(items: [Item], layout: DoubleGridLayout) {
-        self.datasource = items
         self.layout = layout
+        self.datasource = items
+        switch layout {
+        case .top(let reversed):
+            self.datasourceMini = Array((reversed ? items : items.reversed()).enumerated())
+                .map { index, item in
+                    FeedItem(id: index + 4, itemId: item.id, content: .cell(item))
+                }
+            for index in 0..<(4 - items.count % 4) {
+                self.datasourceMini.insert(FeedItem(id: index, itemId: nil, content: .empty), at: 0)
+            }
+            
+        case .bottom:
+            self.datasourceMini = Array(items.enumerated())
+                .map { index, item in
+                    FeedItem(id: index, itemId: item.id, content: .cell(item))
+                }
+        }
+        mediaScrollPosition = datasource.first?.id
     }
 }
 
@@ -40,7 +70,6 @@ final class DoubleGridViewModel<Item: Identifiable>: ObservableObject {
 public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
     
     @ObservedObject private var viewModel: DoubleGridViewModel<Item>
-//    @Binding private var state: DoubleGridViewState
     private let mainGridBackgroundColor: Color
     private let draggableGridBackgroundColor: Color
     private let cellHighlight: DoubleGridCellHighlight
@@ -49,7 +78,6 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
     @State private var verticalScrollOffset: CGPoint = .zero
 
     public init(items: [Item],
-//                state: Binding<DoubleGridViewState> = .constant(.loaded),
                 layout: DoubleGridLayout = .bottom,
                 cellHighlight: DoubleGridCellHighlight = .background(color: .blue),
                 mainGridBackgroundColor: Color = Color(white: 0.1),
@@ -57,7 +85,6 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
                 @ViewBuilder mainCell: @escaping (Item) -> Cell,
                 @ViewBuilder miniCell: @escaping (Item) -> MiniCell) {
         self.viewModel = DoubleGridViewModel(items: items, layout: layout)
-//        self._state = state
         self.mainGridBackgroundColor = mainGridBackgroundColor
         self.draggableGridBackgroundColor = draggableGridBackgroundColor
         self.cellHighlight = cellHighlight
@@ -66,22 +93,13 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
     }
     
     public var body: some View {
-        VStack {
-//            switch viewModel.state {
-//            case .loading:
-//                LoadingView(kind: .cellsGrid(withFakeTabBar: true))
-//            case .loaded, .empty:
-                loadedView
-//            case .error:
-//                Text("Error :(")
-//            }
-        }
-        .background {
-            mainGridBackgroundColor
-        }
+        contentView
+            .background {
+                mainGridBackgroundColor
+            }
     }
     
-    private var loadedView: some View {
+    private var contentView: some View {
         GeometryReader { reader in
             ScrollViewReader { proxy in
                 OffsetScrollView(axes: .vertical, showsIndicators: false, offset: $verticalScrollOffset) {
@@ -91,7 +109,7 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
                             draggableGallery(minHeight: reader.size.height * 0.82)
                                 .id(1)
                                 .zIndex(1)
-                            horizontalFeedView(height: reader.size.height * ((reader.size.height > 600) ? (viewModel.layout == .bottom ? 0.82 : 0.80) : 0.99))
+                            horizontalFeedView(height: reader.size.height * ((reader.size.height > 600) ? (viewModel.layout.isBottom ? 0.82 : 0.80) : 0.99))
                                 .id(0)
                                 .zIndex(0)
                         case .bottom:
@@ -116,15 +134,14 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
                                 }
                         }
                     )
-                    .scrollTargetLayout(isEnabled: viewModel.layout == .bottom ? verticalScrollOffset.y < 750 : verticalScrollOffset.y > 450)
-                }
+//                    .scrollTargetLayout(isEnabled: viewModel.layout.isBottom ? verticalScrollOffset.y < 750 : verticalScrollOffset.y > 450)
+                    .scrollTargetLayout()
+              }
                 .scrollTargetBehavior(.viewAligned)
-                .defaultScrollAnchor(viewModel.layout == .bottom ? .top : .bottom)
+                .defaultScrollAnchor(viewModel.layout.isBottom ? .top : .bottom)
                 .onChange(of: viewModel.verticalScrollPosition) { oldValue, newValue in
                     if newValue == 0, oldValue != 0 {
-//                        withAnimation {
-                            proxy.scrollTo(newValue, anchor: .bottom)
-//                        }
+                        proxy.scrollTo(newValue, anchor: .bottom)
                     }
                 }
             }
@@ -168,6 +185,7 @@ public struct DoubleGrid<Cell: View, MiniCell: View, Item: Identifiable>: View {
             LazyHStack(spacing: 0) {
                 ForEach(viewModel.datasource, id: \.self.id) { item in
                     mainCell(item)
+                        .aspectRatio(0.7, contentMode: .fit)
                         .padding(.horizontal)
                         .containerRelativeFrame(.horizontal)
                         .scrollTransition { content, phase in
