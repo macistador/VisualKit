@@ -35,11 +35,11 @@ struct ContentView: View {
                         Text("GlyphButton")
                     }
                     
-                    NavigationLink {
-                        TextButtonDemo()
-                    } label: {
-                        Text("TextButton")
-                    }
+//                    NavigationLink {
+//                        TextButtonDemo()
+//                    } label: {
+//                        Text("TextButton")
+//                    }
                 }
                 
                 Section("Containers", isExpanded: $containersSection) {
@@ -108,6 +108,18 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
+                        AnimatedDecorationsViewDemo()
+                    } label: {
+                        Text("AnimatedDecorationsView")
+                    }
+                    
+                    NavigationLink {
+                        DecorationsLinesViewDemo()
+                    } label: {
+                        Text("DecorationsLinesView")
+                    }
+                    
+                    NavigationLink {
                         DragIndicatorViewDemo()
                     } label: {
                         Text("DragIndicatorView")
@@ -132,18 +144,6 @@ struct ContentView: View {
                 
                 Section("ViewModifiers", isExpanded: $viewModifiersSection) {
                     NavigationLink {
-                        PlaceholderEffectDemo()
-                    } label: {
-                        Text("PlaceholderEffect")
-                    }
-                    
-                    NavigationLink {
-                        RaysEffectDemo()
-                    } label: {
-                        Text("RaysEffect")
-                    }
-                    
-                    NavigationLink {
                         ShineEffectDemo()
                     } label: {
                         Text("ShineEffect")
@@ -154,6 +154,18 @@ struct ContentView: View {
                     } label: {
                         Text("DistorsionEffect")
                     }
+                    
+                    NavigationLink {
+                        RaysEffectDemo()
+                    } label: {
+                        Text("RaysEffect")
+                    }
+                    
+                    //                    NavigationLink {
+                    //                        PlaceholderEffectDemo()
+                    //                    } label: {
+                    //                        Text("PlaceholderEffect")
+                    //                    }
                 }
             }
             .listStyle(.sidebar)

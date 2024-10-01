@@ -128,9 +128,9 @@ public struct GlyphButton: View {
                         }
                     }
                     .shadow(color: .black.opacity(hasShadow ? 0.2 : 0), radius: 1, y: 1)
-                    .scaleEffect(animateBlink ? 1.3 : 1.0)
-                    .animation(isBlinking ? .timingCurve(1, 0, 1, 1, duration: 1.5).repeatForever(autoreverses: true) : .easeOut, value: animateBlink)
             }
+            .scaleEffect(animateBlink ? 1.3 : 1.0)
+            .animation(isBlinking ? .timingCurve(1, 0, 1, 1, duration: 1.5).repeatForever(autoreverses: true) : .easeOut, value: animateBlink)
             .onTapGesture {
                 if hasHaptic {
                     let hapticImpact = UIImpactFeedbackGenerator(style: .medium)
