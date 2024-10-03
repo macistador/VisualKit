@@ -50,9 +50,9 @@ struct PaginatedScrollViewDemo: View {
             }
             
             RoundedRectangle(cornerRadius: 80)
-                .stroke(.red/*.white.opacity(0.8)*/, lineWidth: 50 * sin(.pi * screenScrollPercent))
+                .stroke(.red, lineWidth: 50 * sin(.pi * screenScrollPercent))
                 .ignoresSafeArea()
-                .blur(radius: 20)
+                .blur(radius: 20 * sin(.pi * screenScrollPercent))
                 .allowsHitTesting(false)
         }
         .navigationTitle("PaginatedScrollView")

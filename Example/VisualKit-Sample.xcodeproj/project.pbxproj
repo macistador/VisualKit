@@ -28,15 +28,34 @@
 		14852A4A2CAAF34100ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A492CAAF34100ADB395 /* VisualKit */; };
 		14852A4F2CABEC0700ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A4E2CABEC0700ADB395 /* VisualKit */; };
 		14852A522CABF0E300ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A512CABF0E300ADB395 /* VisualKit */; };
+		14852A5D2CAC5E5C00ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A5C2CAC5E5C00ADB395 /* VisualKit */; };
+		14852A602CADB10300ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A5F2CADB10300ADB395 /* VisualKit */; };
+		14852A6B2CADBB7800ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852A6A2CADBB7800ADB395 /* VisualKit */; };
+		14852AA52CAEE7F900ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AA42CAEE7F900ADB395 /* VisualKit */; };
+		14852AAA2CAEEB8400ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AA92CAEEB8400ADB395 /* VisualKit */; };
+		14852AAD2CAF0AB600ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AAC2CAF0AB600ADB395 /* VisualKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		140F20CE2CA0054100555CF7 /* VisualKit-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VisualKit-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		14852A642CADB4FA00ADB395 /* Exceptions for "VisualKit-Sample" folder in "VisualKit-Sample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 140F20CD2CA0054100555CF7 /* VisualKit-Sample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		140F20D02CA0054100555CF7 /* VisualKit-Sample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				14852A642CADB4FA00ADB395 /* Exceptions for "VisualKit-Sample" folder in "VisualKit-Sample" target */,
+			);
 			path = "VisualKit-Sample";
 			sourceTree = "<group>";
 		};
@@ -49,9 +68,11 @@
 			files = (
 				140F20EC2CA0056D00555CF7 /* VisualKit in Frameworks */,
 				14852A4F2CABEC0700ADB395 /* VisualKit in Frameworks */,
+				14852AAD2CAF0AB600ADB395 /* VisualKit in Frameworks */,
 				148529FE2CA466D100ADB395 /* VisualKit in Frameworks */,
 				140F21142CA0997E00555CF7 /* VisualKit in Frameworks */,
 				148529F72CA45A2400ADB395 /* VisualKit in Frameworks */,
+				14852A6B2CADBB7800ADB395 /* VisualKit in Frameworks */,
 				14852A522CABF0E300ADB395 /* VisualKit in Frameworks */,
 				140F20F72CA00CE200555CF7 /* VisualKit in Frameworks */,
 				14852A4A2CAAF34100ADB395 /* VisualKit in Frameworks */,
@@ -61,13 +82,17 @@
 				140F20EF2CA007E800555CF7 /* VisualKit in Frameworks */,
 				14852A012CA4693C00ADB395 /* VisualKit in Frameworks */,
 				140F20F22CA0097200555CF7 /* VisualKit in Frameworks */,
+				14852A602CADB10300ADB395 /* VisualKit in Frameworks */,
 				14852A3F2CA95EE700ADB395 /* VisualKit in Frameworks */,
 				14852A302CA850FC00ADB395 /* VisualKit in Frameworks */,
 				148529F42CA4581300ADB395 /* VisualKit in Frameworks */,
+				14852A5D2CAC5E5C00ADB395 /* VisualKit in Frameworks */,
 				14852A152CA807A900ADB395 /* VisualKit in Frameworks */,
+				14852AA52CAEE7F900ADB395 /* VisualKit in Frameworks */,
 				148529F12CA4503700ADB395 /* VisualKit in Frameworks */,
 				148529EC2CA0B23800ADB395 /* VisualKit in Frameworks */,
 				14852A0B2CA46EFC00ADB395 /* VisualKit in Frameworks */,
+				14852AAA2CAEEB8400ADB395 /* VisualKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +156,12 @@
 				14852A492CAAF34100ADB395 /* VisualKit */,
 				14852A4E2CABEC0700ADB395 /* VisualKit */,
 				14852A512CABF0E300ADB395 /* VisualKit */,
+				14852A5C2CAC5E5C00ADB395 /* VisualKit */,
+				14852A5F2CADB10300ADB395 /* VisualKit */,
+				14852A6A2CADBB7800ADB395 /* VisualKit */,
+				14852AA42CAEE7F900ADB395 /* VisualKit */,
+				14852AA92CAEEB8400ADB395 /* VisualKit */,
+				14852AAC2CAF0AB600ADB395 /* VisualKit */,
 			);
 			productName = "VisualKit-Sample";
 			productReference = 140F20CE2CA0054100555CF7 /* VisualKit-Sample.app */;
@@ -161,7 +192,7 @@
 			mainGroup = 140F20C52CA0054100555CF7;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				14852A502CABF0E300ADB395 /* XCLocalSwiftPackageReference "../Package" */,
+				14852AAB2CAF0AB600ADB395 /* XCLocalSwiftPackageReference "../Package" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 140F20CF2CA0054100555CF7 /* Products */;
@@ -321,6 +352,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VisualKit-Sample/Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -360,6 +392,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VisualKit-Sample/Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -410,7 +443,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		14852A502CABF0E300ADB395 /* XCLocalSwiftPackageReference "../Package" */ = {
+		14852AAB2CAF0AB600ADB395 /* XCLocalSwiftPackageReference "../Package" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Package;
 		};
@@ -498,6 +531,30 @@
 			productName = VisualKit;
 		};
 		14852A512CABF0E300ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852A5C2CAC5E5C00ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852A5F2CADB10300ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852A6A2CADBB7800ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852AA42CAEE7F900ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852AA92CAEEB8400ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852AAC2CAF0AB600ADB395 /* VisualKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = VisualKit;
 		};

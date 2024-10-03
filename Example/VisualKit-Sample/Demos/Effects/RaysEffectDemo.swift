@@ -9,18 +9,29 @@ import SwiftUI
 import VisualKit
 
 struct RaysEffectDemo: View {
+    
+    @State var effectTrigger: Bool = false
+    
     var body: some View {
         VStack {
             Spacer()
-
-            Circle()
-                .fill(.red)
-                .frame(width: 250)
-                .raysEffect()
+            
+            Button {
+                effectTrigger = true
+            } label: {
+                ZStack {
+                    Circle()
+                        .fill(.red)
+                        .frame(width: 100)
+                    Text("Shoot")
+                        .foregroundStyle(.white)
+                }
+            }
+            .raysEffect(trigger: $effectTrigger)
 
             Spacer()
         }
-        .padding()
+        .frame(maxWidth: .infinity)
         .navigationTitle("RaysEffect")
     }
 }

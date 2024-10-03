@@ -35,11 +35,12 @@ struct ContentView: View {
                         Text("GlyphButton")
                     }
                     
-//                    NavigationLink {
-//                        TextButtonDemo()
-//                    } label: {
-//                        Text("TextButton")
-//                    }
+                    NavigationLink {
+                        TextButtonDemo()
+                    } label: {
+                        Text("TextButton")
+                    }
+                    .disabled(true)
                 }
                 
                 Section("Containers", isExpanded: $containersSection) {
@@ -114,12 +115,6 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
-                        DecorationsLinesViewDemo()
-                    } label: {
-                        Text("DecorationsLinesView")
-                    }
-                    
-                    NavigationLink {
                         DragIndicatorViewDemo()
                     } label: {
                         Text("DragIndicatorView")
@@ -128,18 +123,50 @@ struct ContentView: View {
                 
                 Section("Screens", isExpanded: $viewsSection) {
                     NavigationLink {
+                        FeedbackViewDemo()
+                    } label: {
+                        Text("FeedbackView")
+                    }
+                    
+                    NavigationLink {
                         ForceUpdateDemo()
                     } label: {
                         Text("ForceUpdateView")
                     }
-                }
-                
-                Section("Others", isExpanded: $othersSection) {
+                    
                     NavigationLink {
-                        SendMailViewDemo()
+                        OurOtherAppsViewDemo()
                     } label: {
-                        Text("SendMailView")
+                        Text("OurOtherAppsView")
                     }
+                    
+                    NavigationLink {
+                        EmptyView()
+                    } label: {
+                        Text("SettingsView")
+                    }
+                    .disabled(true)
+                    
+                    NavigationLink {
+                        EmptyView()
+                    } label: {
+                        Text("ChatView")
+                    }
+                    .disabled(true)
+
+                    NavigationLink {
+                        EmptyView()
+                    } label: {
+                        Text("AppReviewPrompt")
+                    }
+                    .disabled(true)
+
+                    NavigationLink {
+                        EmptyView()
+                    } label: {
+                        Text("ProfileView")
+                    }
+                    .disabled(true)
                 }
                 
                 Section("ViewModifiers", isExpanded: $viewModifiersSection) {
@@ -147,6 +174,24 @@ struct ContentView: View {
                         ShineEffectDemo()
                     } label: {
                         Text("ShineEffect")
+                    }
+                    
+                    NavigationLink {
+                        ViewPopEffectDemo()
+                    } label: {
+                        Text("ViewPopEffect")
+                    }
+                    
+                    NavigationLink {
+                        InnerHaloEffectDemo()
+                    } label: {
+                        Text("InnerHaloEffect")
+                    }
+                    
+                    NavigationLink {
+                        FullScreenTitleEffectDemo()
+                    } label: {
+                        Text("FullScreenTitleEffect")
                     }
                     
                     NavigationLink {
@@ -161,11 +206,20 @@ struct ContentView: View {
                         Text("RaysEffect")
                     }
                     
-                    //                    NavigationLink {
-                    //                        PlaceholderEffectDemo()
-                    //                    } label: {
-                    //                        Text("PlaceholderEffect")
-                    //                    }
+                    NavigationLink {
+                        PlaceholderEffectDemo()
+                    } label: {
+                        Text("PlaceholderEffect")
+                    }
+                    .disabled(true)
+                }
+                
+                Section("Others", isExpanded: $othersSection) {
+                    NavigationLink {
+                        SendMailViewDemo()
+                    } label: {
+                        Text("SendMailView")
+                    }
                 }
             }
             .listStyle(.sidebar)
