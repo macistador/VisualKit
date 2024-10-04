@@ -7,24 +7,103 @@
 
 import SwiftUI
 
+public enum HaloColor {
+    case color(Color)
+    case gradient([Color])
+    case meshGradient([Color])
+    
+    var style: any ShapeStyle {
+        switch self {
+        case .color(let color): color
+        case .gradient(let colors): LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
+        case .meshGradient(let colors): Color.blue
+        }
+    }
+}
+
 struct InnerHaloModifier: ViewModifier {
 
     @Binding var trigger: Bool
+    @Binding var progress: Double?
     let cornerRadius: Double
-    let color: Color
+    let color: HaloColor
     let intensity: Double
     let speedMultiplier: Double
     let duration: Double = 0.3
     
     func body(content: Content) -> some View {
-        content
+        var lineWidth: Double = 50 * intensity
+        var blurRadius: Double = 20 * intensity
+        var opacity: Double = trigger ? 1 : 0
+        if let progress {
+            lineWidth = lineWidth * progress
+            blurRadius = blurRadius * progress
+            opacity = progress
+        }
+        
+        return content
             .overlay {
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(color, lineWidth: 50 * intensity)
-                    .ignoresSafeArea()
-                    .blur(radius: 20 * intensity)
-                    .opacity(trigger ? 1 : 0)
-                    .allowsHitTesting(false)
+                ZStack {
+                    switch color {
+                    case .color(let color):
+                        effectView(blurRadius: blurRadius, opacity: opacity / 2) {
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .stroke(color,
+                                        lineWidth: lineWidth)
+                        }
+                        effectView(blurRadius: blurRadius / 2, opacity: opacity) {
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .stroke(color,
+                                        lineWidth: lineWidth / 2)
+                        }
+                    case .gradient(let colors):
+                        effectView(blurRadius: blurRadius, opacity: opacity / 2) {
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .stroke(LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom),
+                                        lineWidth: lineWidth)
+                        }
+                        effectView(blurRadius: blurRadius / 2, opacity: opacity) {
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .stroke(LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom),
+                                        lineWidth: lineWidth / 2)
+                        }
+                    case .meshGradient(let colors):
+                        if #available(iOS 18, *) {
+                            effectView(blurRadius: blurRadius, opacity: opacity / 2) {
+                                RoundedRectangle(cornerRadius: cornerRadius)
+                                    .stroke(MeshGradient(width: 2, height: 5, points: [
+                                        [0.0, 0.0], [1.0, 0.0],
+                                        [0.0, 0.25], [1.0, 0.25],
+                                        [0.0, 0.5], [1.0, 0.5],
+                                        [0.0, 0.75], [1.0, 0.75],
+                                        [0.0, 1.0], [1.0, 1.0]
+                                    ], colors: colors),
+                                            lineWidth: lineWidth)
+                            }
+                             
+                            effectView(blurRadius: blurRadius / 2, opacity: opacity) {
+                                RoundedRectangle(cornerRadius: cornerRadius)
+                                    .stroke(MeshGradient(width: 2, height: 5, points: [
+                                        [0.0, 0.0], [1.0, 0.0],
+                                        [0.0, 0.25], [1.0, 0.25],
+                                        [0.0, 0.5], [1.0, 0.5],
+                                        [0.0, 0.75], [1.0, 0.75],
+                                        [0.0, 1.0], [1.0, 1.0]
+                                    ], colors: colors),
+                                            lineWidth: lineWidth / 2)
+                            }
+                        } else {
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .stroke(LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom),
+                                        lineWidth: lineWidth)
+                                .ignoresSafeArea()
+                                .blur(radius: blurRadius)
+                                .opacity(opacity)
+                                .allowsHitTesting(false)
+                        }
+                    }
+                }
+                .allowsHitTesting(false)
             }
             .onChange(of: trigger) { value in
                 guard trigger == true else { return }
@@ -47,16 +126,24 @@ struct InnerHaloModifier: ViewModifier {
                 }
             }
     }
+    
+    @ViewBuilder
+    private func effectView<T: View>(blurRadius: Double, opacity: Double, @ViewBuilder content: ()->T) -> some View {
+        content()
+            .ignoresSafeArea()
+            .blur(radius: blurRadius)
+            .opacity(opacity)
+    }
 }
 
 public extension View {
-    public func innerHaloEffect(cornerRadius: Double = 80, color: Color = .red, trigger: Binding<Bool>, intensity: Double = 1.0, speedMultiplier: Double = 1.0) -> some View {
+    public func innerHaloEffect(trigger: Binding<Bool> = .constant(true), progress: Binding<Double?> = .constant(nil), cornerRadius: Double = 60, color: HaloColor = .color(.red), intensity: Double = 1.0, speedMultiplier: Double = 1.0) -> some View {
         self
-            .modifier(InnerHaloModifier(trigger: trigger, cornerRadius: cornerRadius, color: color, intensity: intensity, speedMultiplier: speedMultiplier))
+            .modifier(InnerHaloModifier(trigger: trigger, progress: progress, cornerRadius: cornerRadius, color: color, intensity: intensity, speedMultiplier: speedMultiplier))
     }
 }
 
 #Preview {
     Text("Hello, world!")
-        .modifier(InnerHaloModifier(trigger: .constant(true), cornerRadius: 80, color: .red, intensity: 1.0, speedMultiplier: 1.0))
+        .innerHaloEffect(trigger: .constant(false))
 }

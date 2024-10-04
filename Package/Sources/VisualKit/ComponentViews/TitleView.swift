@@ -19,12 +19,12 @@ public struct TitleView: View {
     var customFont: String?
     @State private var animate: Bool = false
 
-    public init(title: String, titleSize: Double = 35, subtitle: String? = nil, subtitleSize: Double = 16, color: Color = .black, alignment: HorizontalAlignment = .center, effect: Bool = true, customFont: String? = nil) {
+    public init(title: String, titleSize: Double = 35, subtitle: String? = nil, subtitleSize: Double = 16, color: Color? = nil, alignment: HorizontalAlignment = .center, effect: Bool = true, customFont: String? = nil) {
         self.title = title
         self.titleSize = titleSize
         self.subtitle = subtitle
         self.subtitleSize = subtitleSize
-        self.color = color
+        self.color = color ?? Color("primaryText", bundle: .module)
         self.alignment = alignment
         self.effect = effect
         self.customFont = customFont

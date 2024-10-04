@@ -48,13 +48,8 @@ struct PaginatedScrollViewDemo: View {
                             .hueRotation(.degrees(45 * phase.value))
                     }
             }
-            
-            RoundedRectangle(cornerRadius: 80)
-                .stroke(.red, lineWidth: 50 * sin(.pi * screenScrollPercent))
-                .ignoresSafeArea()
-                .blur(radius: 20 * sin(.pi * screenScrollPercent))
-                .allowsHitTesting(false)
         }
+        .innerHaloEffect(progress: .constant(sin(.pi * screenScrollPercent)))
         .navigationTitle("PaginatedScrollView")
         .toolbarTitleDisplayMode(.inline)
         .toolbarBackgroundVisibility(.hidden, for: .navigationBar)

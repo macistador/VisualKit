@@ -16,7 +16,7 @@ struct GenericButtonDemo: View {
     @State var cornerRadius: Double = 20
     @State var borderWidth: Double = 10
     @State var fontSize: Double = 16
-    @State var relief: Bool = false
+    @State var relief: GenericButton.ReliefStyle = .none
     @State var haptic: Bool = true
     @State var animated: Bool = true
 
@@ -37,7 +37,7 @@ struct GenericButtonDemo: View {
                               cornerRadius: 5,
                               borderWidth: 0,
                               fontSize: 20,
-                              hasRelief: false,
+                              reliefStyle: .none,
                               hasHaptic: false,
                               isAnimated: false) {
                     print("Button tapped")
@@ -98,7 +98,7 @@ struct GenericButtonDemo: View {
                                   cornerRadius: cornerRadius,
                                   borderWidth: borderWidth,
                                   fontSize: fontSize,
-                                  hasRelief: relief,
+                                  reliefStyle: relief,
                                   hasHaptic: haptic,
                                   isAnimated: animated) {
                         print("Button tapped")
@@ -138,9 +138,15 @@ struct GenericButtonDemo: View {
                     }
                     
                     HStack {
-                        Text("Has relief")
+                        Text("Relief style")
                         Spacer()
-                        Toggle("", isOn: $relief)
+                        Picker("", selection: $relief) {
+                            ForEach([GenericButton.ReliefStyle.none, GenericButton.ReliefStyle.retro, GenericButton.ReliefStyle.shadow], id: \.self) {
+                                Text($0.name)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.vertical)
                     }
                     
                     HStack {
@@ -197,6 +203,16 @@ private extension GenericButton.ButtonState {
         case .enabled: "enabled"
         case .disabled: "disabled"
         case .loading: "loading"
+        }
+    }
+}
+
+private extension GenericButton.ReliefStyle {
+    var name: String {
+        switch self {
+        case .none: "none"
+        case .retro: "retro"
+        case .shadow: "shadow"
         }
     }
 }

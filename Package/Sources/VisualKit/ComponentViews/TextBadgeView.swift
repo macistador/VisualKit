@@ -11,14 +11,16 @@ public struct TextBadgeView: View {
     
     let text: String
     let color: ColorSet
+    let borderColor: Color
     let borderWidth: Double
     let cornerRadius: Double
     let fontSize: Double
     let minWidth: Double
 
-    public init(text: String, color: ColorSet, borderWidth: Double = 3, cornerRadius: Double = 10, fontSize: Double = 16, minWidth: Double = 140) {
+    public init(text: String, color: ColorSet, borderColor: Color? = nil, borderWidth: Double = 3, cornerRadius: Double = 10, fontSize: Double = 16, minWidth: Double = 140) {
         self.text = text
         self.color = color
+        self.borderColor = borderColor ?? Color("textBadgeBorder", bundle: .module)
         self.borderWidth = borderWidth
         self.cornerRadius = cornerRadius
         self.fontSize = fontSize
@@ -37,16 +39,16 @@ public struct TextBadgeView: View {
                 ZStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .stroke(.black, lineWidth: borderWidth)
+                            .stroke(borderColor, lineWidth: borderWidth)
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .fill(.black)
+                            .fill(borderColor)
                             .padding(borderWidth / 2)
                     }
                     .offset(x: borderWidth / 3, y: borderWidth / 3)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .stroke(.black, lineWidth: borderWidth)
+                            .stroke(borderColor, lineWidth: borderWidth)
                         RoundedRectangle(cornerRadius: cornerRadius)
                             .fill(color.color)
                             .padding(borderWidth / 2)

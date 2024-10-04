@@ -11,7 +11,8 @@ import VisualKit
 struct RaysEffectDemo: View {
     
     @State var effectTrigger: Bool = false
-    
+    @State var effectTrigger2: Bool = false
+
     var body: some View {
         VStack {
             Spacer()
@@ -29,6 +30,19 @@ struct RaysEffectDemo: View {
             }
             .raysEffect(trigger: $effectTrigger)
 
+            Button {
+                effectTrigger2 = true
+            } label: {
+                ZStack {
+                    Circle()
+                        .fill(.red)
+                        .frame(width: 100)
+                    Text("Shoot flash")
+                        .foregroundStyle(.white)
+                }
+            }
+            .raysEffect(.flash, trigger: $effectTrigger2)
+            
             Spacer()
         }
         .frame(maxWidth: .infinity)

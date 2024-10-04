@@ -26,7 +26,13 @@ struct InnerHaloEffectDemo: View {
         }
         .frame(maxWidth: .infinity)
         .navigationTitle("InneHaloEffect")
-        .innerHaloEffect(trigger: $effectTrigger)
+        .innerHaloEffect(trigger: $effectTrigger, color: .meshGradient([
+            .pink, .pink,
+            .yellow, .pink,
+            .purple, .pink,
+            .purple, .cyan,
+            .purple, .purple
+        ]))
     }
 }
 

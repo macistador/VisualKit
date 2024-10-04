@@ -24,6 +24,7 @@ struct AnimatedDecorationsViewDemo: View {
                 HStack {
                     Text("Scenes")
                         .bold()
+                        .foregroundStyle(.black)
                     Spacer()
                 }
                     
@@ -60,6 +61,7 @@ struct AnimatedDecorationsViewDemo: View {
                 HStack {
                     Text("Colors")
                         .bold()
+                        .foregroundStyle(.black)
                     Spacer()
                     RoundedRectangle(cornerRadius: 4)
                         .fill(LinearGradient(colors: [Color.blue, Color.cyan], startPoint: .top, endPoint: .bottom))
@@ -96,12 +98,14 @@ struct AnimatedDecorationsViewDemo: View {
                 
                 Divider()
                 
-                VStack {
+                VStack(alignment: .leading) {
                     Text("Speed")
                         .bold()
+                        .foregroundStyle(.black)
                     HStack {
                         Slider(value: $speedMultiplier, in: 0.0...10.0, step: 0.1) {
                             Text("Speed")
+                                .foregroundStyle(.black)
                         }
                         Text(String(format: "%.1f", speedMultiplier))
                             .font(.caption)

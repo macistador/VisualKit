@@ -108,7 +108,7 @@ public extension View {
     public func viewPopEffect(text: String,
                               trigger: Binding<Bool>,
                               direction: ViewPopDirection = .top(),
-                              color: Color = .black,
+                              color: Color? = nil,
                               font: Font = .title,
                               intensity: Double = 1.0,
                               speedMultiplier: Double = 1.0,
@@ -118,7 +118,7 @@ public extension View {
             .modifier(ViewPopModifier(content: {
                 Text(text)
                     .font(font)
-                    .foregroundStyle(color)
+                    .foregroundStyle(color ?? Color("primaryText", bundle: .module))
             },
                                       trigger: trigger,
                                       direction: direction,

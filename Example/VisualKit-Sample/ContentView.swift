@@ -20,9 +20,33 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
+                Section("Text / titles", isExpanded: $textSection) {
+                    NavigationLink {
+                        TitleViewDemo()
+                    } label: {
+                        Text("TitleView")
+                    }
+                    
+                    NavigationLink {
+                        AnimatedTextFieldDemo()
+                    } label: {
+                        Text("AnimatedTextField")
+                    }
+                    
+                    NavigationLink {
+                        TextBadgeViewDemo()
+                    } label: {
+                        Text("TextBadgeView")
+                    }
+                    
+                    NavigationLink {
+                        MessageBannerViewDemo()
+                    } label: {
+                        Text("ErrorMessageView")
+                    }
+                }
+                
                 Section("Buttons", isExpanded: $buttonsSection) {
-//                    DisclosureGroup("sub cat") {}
-
                     NavigationLink {
                         GenericButtonDemo()
                     } label: {
@@ -41,6 +65,26 @@ struct ContentView: View {
                         Text("TextButton")
                     }
                     .disabled(true)
+                }
+                
+                Section("Decorations", isExpanded: $decorationsSection) {
+                    NavigationLink {
+                        BrushViewDemo()
+                    } label: {
+                        Text("BrushView")
+                    }
+                    
+                    NavigationLink {
+                        AnimatedDecorationsViewDemo()
+                    } label: {
+                        Text("AnimatedDecorationsView")
+                    }
+                    
+                    NavigationLink {
+                        DragIndicatorViewDemo()
+                    } label: {
+                        Text("DragIndicatorView")
+                    }
                 }
                 
                 Section("Containers", isExpanded: $containersSection) {
@@ -72,52 +116,6 @@ struct ContentView: View {
                         ChipsStackDemo()
                     } label: {
                         Text("ChipsStack")
-                    }
-                }
-                
-                Section("Text / titles", isExpanded: $textSection) {
-                    NavigationLink {
-                        TitleViewDemo()
-                    } label: {
-                        Text("TitleView")
-                    }
-                    
-                    NavigationLink {
-                        AnimatedTextFieldDemo()
-                    } label: {
-                        Text("AnimatedTextField")
-                    }
-                    
-                    NavigationLink {
-                        TextBadgeViewDemo()
-                    } label: {
-                        Text("TextBadgeView")
-                    }
-                    
-                    NavigationLink {
-                        MessageBannerViewDemo()
-                    } label: {
-                        Text("ErrorMessageView")
-                    }
-                }
-                
-                Section("Decorations", isExpanded: $decorationsSection) {
-                    NavigationLink {
-                        BrushViewDemo()
-                    } label: {
-                        Text("BrushView")
-                    }
-                    
-                    NavigationLink {
-                        AnimatedDecorationsViewDemo()
-                    } label: {
-                        Text("AnimatedDecorationsView")
-                    }
-                    
-                    NavigationLink {
-                        DragIndicatorViewDemo()
-                    } label: {
-                        Text("DragIndicatorView")
                     }
                 }
                 
@@ -180,6 +178,12 @@ struct ContentView: View {
                         ViewPopEffectDemo()
                     } label: {
                         Text("ViewPopEffect")
+                    }
+                    
+                    NavigationLink {
+                        FancyEffectDemo()
+                    } label: {
+                        Text("FancyEffectDemo")
                     }
                     
                     NavigationLink {
