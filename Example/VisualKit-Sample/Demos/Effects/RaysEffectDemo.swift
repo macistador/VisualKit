@@ -14,7 +14,7 @@ struct RaysEffectDemo: View {
     @State var effectTrigger2: Bool = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 40) {
             Spacer()
             
             Button {

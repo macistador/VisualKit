@@ -31,6 +31,7 @@ public struct GenericButton: View {
         let secondaryButtonText: Color
         let tertiaryButtonText: Color
         let disabledButtonText: Color
+        let gradient: [Color]
         
         public init(primaryButton: Color? = nil,
                     secondaryButton: Color? = nil,
@@ -40,7 +41,8 @@ public struct GenericButton: View {
                     primaryButtonText: Color? = nil,
                     secondaryButtonText: Color? = nil,
                     tertiaryButtonText: Color? = nil,
-                    disabledButtonText: Color? = nil) {
+                    disabledButtonText: Color? = nil,
+                    gradient: [Color]? = nil) {
             self.primaryButton = primaryButton ?? Color("primaryButton", bundle: .module)
             self.secondaryButton = secondaryButton ?? Color("secondaryButton", bundle: .module)
             self.disabledButton = disabledButton ?? Color("disabledButton", bundle: .module)
@@ -50,6 +52,7 @@ public struct GenericButton: View {
             self.secondaryButtonText = secondaryButtonText ?? Color("secondaryButtonText", bundle: .module)
             self.tertiaryButtonText = tertiaryButtonText ?? Color("tertiaryButtonText", bundle: .module)
             self.disabledButtonText = disabledButtonText ?? Color("disabledButtonText", bundle: .module)
+            self.gradient = gradient ?? [.pink, .purple, .cyan, .purple, .cyan, .pink]
         }
     }
     
@@ -115,12 +118,13 @@ public struct GenericButton: View {
     var isAnimated: Bool
     var hasHaptic: Bool
     var action: () -> Void
-    @State private var animate: Bool = false
+    @State private var animateTap: Bool = false
+    @State private var animateColors: Bool = false
 
-    public init(title: String,
+    public init(_ title: String,
                 style: Style = .primary(destructive: false),
                 state: Binding<ButtonState> = .constant(.enabled),
-                colors: Colors = GenericButton.colors,
+                colors: Colors? = nil,
                 cornerRadius: Double = GenericButton.cornerRadius,
                 borderWidth: Double = GenericButton.borderWidth,
                 fontSize: Double? = nil,
@@ -134,7 +138,7 @@ public struct GenericButton: View {
         self.borderWidth = borderWidth
         self.fontSize = fontSize ?? style.fontSize
         self._state = state
-        self.colors = colors
+        self.colors = colors ?? GenericButton.colors
         self.reliefStyle = reliefStyle
         self.isAnimated = isAnimated
         self.hasHaptic = hasHaptic
@@ -146,7 +150,7 @@ public struct GenericButton: View {
             Spacer()
             Button {
                 if isAnimated {
-                    animate = true
+                    animateTap = true
                 }
                 
                 if hasHaptic {
@@ -171,32 +175,31 @@ public struct GenericButton: View {
                             .padding(1)
                         } else if reliefStyle == .shadow {
                             RoundedRectangle(cornerRadius: cornerRadius)
-                                .fill(LinearGradient(colors: [.pink, .purple, .cyan, .purple], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                .fill(AngularGradient(colors: state == .enabled ? colors.gradient : [disabledBorderColor], center: .center, angle: .degrees(animateColors ? 360 : 0)))
                                 .offset(y: 4 + borderWidth * 0.7)
                                 .padding(.top, 10)
                                 .opacity(0.5)
-                                .scaleEffect(x: 0.8, y: animate ? 0.6 : 0.8)
+                                .scaleEffect(x: 0.8, y: animateTap ? 0.6 : 0.8)
                                 .blur(radius: 20)
-                                .animation(.bouncy(duration: 0.3), value: animate)
+                                .animation(.bouncy(duration: 0.3), value: animateTap)
+                                .animation(.linear(duration: isAnimated ? 4.0 : 0).repeatForever(autoreverses: false), value: animateColors && isAnimated)
                         }
                     }
 
                     ZStack {
                         if reliefStyle == .shadow {
                             RoundedRectangle(cornerRadius: cornerRadius)
-                                .stroke(LinearGradient(colors: state == .enabled ? [.pink, .purple, .cyan, .purple] : [disabledBorderColor], startPoint: .bottomLeading, endPoint: .topTrailing), lineWidth: borderWidth)
+                                .stroke(AngularGradient(colors: state == .enabled ? colors.gradient : [disabledBorderColor], center: .center, angle: .degrees(animateColors ? 360 : 0)), lineWidth: borderWidth)
+                                .animation(.linear(duration: isAnimated ? 4.0 : 0).repeatForever(autoreverses: false), value: animateColors && isAnimated)
+                                .onAppear {
+                                    guard isAnimated else { return }
+                                    animateColors = true
+                                }
                             RoundedRectangle(cornerRadius: cornerRadius)
-                                .inset(by: borderWidth / 2)
                                 .fill(Material.regular)
-//                                .background {
-//                                    backgroundColor
-//                                }
-//                                .overlay {
-//                                    if state != .enabled {
-//                                        disabledBackgroundColor
-//                                    }
-//                                }
-//                                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                                .background(backgroundColor)
+                                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+
                         } else {
                             RoundedRectangle(cornerRadius: cornerRadius)
                                 .stroke(state == .enabled ? borderColor : disabledBorderColor, lineWidth: borderWidth)
@@ -217,8 +220,8 @@ public struct GenericButton: View {
                                 .padding(.vertical, 5)
                         }
                     }
-                    .offset(y: (animate && style.hasReflief && reliefStyle != .none) ? 3 + borderWidth * 0.7 : 0)
-                    .animation(.bouncy(duration: 0.3), value: animate)
+                    .offset(y: (animateTap && style.hasReflief && reliefStyle != .none) ? 3 + borderWidth * 0.7 : 0)
+                    .animation(.bouncy(duration: 0.3), value: animateTap)
                 }
                 .padding([.horizontal, .top])
             }
@@ -280,19 +283,19 @@ public struct GenericButton: View {
 
 #Preview {
     Group {
-        GenericButton(title: "Go", state: .constant(.enabled), action: {})
+        GenericButton("Go", state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, reliefStyle: .retro, action: {})
+        GenericButton("Disabled", style: .primary(destructive: false), state: .constant(.disabled), cornerRadius: 4, borderWidth: 0, reliefStyle: .retro, action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Destructive", style: .primary(destructive: true), state: .constant(.enabled), action: {})
+        GenericButton("Destructive", style: .primary(destructive: true), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Secondary", style: .secondary(destructive: false), state: .constant(.enabled), action: {})
+        GenericButton("Secondary", style: .secondary(destructive: false), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Secondary with long text", style: .secondary(destructive: true), state: .constant(.enabled), action: {})
+        GenericButton("Secondary with long text", style: .secondary(destructive: true), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Tertiary", style: .tertiary(destructive: false), state: .constant(.enabled), action: {})
+        GenericButton("Tertiary", style: .tertiary(destructive: false), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
-        GenericButton(title: "Tertiary destructive", style: .tertiary(destructive: true), state: .constant(.enabled), action: {})
+        GenericButton("Tertiary destructive", style: .tertiary(destructive: true), state: .constant(.enabled), action: {})
             .padding(.horizontal, 40)
     }
 }

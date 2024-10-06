@@ -31,7 +31,7 @@ public struct ForceUpdateView: View {
             
             Spacer()
             
-            GenericButton(title: "Update", colors: GenericButton.Colors(primaryButton: foregroundColor, primaryButtonText: backgroundColor)) {
+            GenericButton("Update", colors: GenericButton.Colors(primaryButton: foregroundColor, primaryButtonText: backgroundColor)) {
                 openAppStore()
             }
             .padding(.bottom, 30)

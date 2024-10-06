@@ -8,8 +8,18 @@
 import SwiftUI
 
 public enum FullScreenTitleKind {
-    case first(text: String, rotation: Double = -5)
-    case second(text: String, rotation: Double = 0)
+    case first(text: String,
+               rotation: Double = -5,
+               textColor: Color = .black,
+               textBorderColor: Color = .white,
+               backgroundColor1: Color = .blue,
+               backgroundColor2: Color = .red)
+    case second(text: String,
+                rotation: Double = 0,
+                textColor1: Color = Color(red: 80/255, green: 5/255, blue: 232/255),
+                textColor2: Color = Color(red: 151/255, green: 4/255, blue: 209/255),
+                textBackground: Color = .black,
+                backgroundColor: Color = Color(red: 80/255, green: 5/255, blue: 232/255))
 }
 
 struct FullScreenTitleModifier: ViewModifier {
@@ -18,7 +28,6 @@ struct FullScreenTitleModifier: ViewModifier {
     @Binding var trigger: Bool
     @State var innerTrigger: Bool = false
     @State var innerTrigger2: Bool = false
-    let color: Color
     let font: Font
     let intensity: Double
     let speedMultiplier: Double
@@ -29,20 +38,18 @@ struct FullScreenTitleModifier: ViewModifier {
             .overlay(alignment: .center) {
 //                if trigger {
                     switch kind {
-                    case .first(let text, let rotation): first(content: content, text: text, rotation: rotation)
-                    case .second(let text, let rotation): second(content: content, text: text, rotation: rotation)
+                    case .first(let text, let rotation, let textColor, let textBorderColor, let backgroundColor1, let backgroundColor2): first(content: content, text: text, rotation: rotation, textColor: textColor, textBorderColor: textBorderColor, backgroundColor1: backgroundColor1, backgroundColor2: backgroundColor2)
+                    case .second(let text, let rotation, let textColor1, let textColor2, let textBackgroundColor, let backgroundColor): second(content: content, text: text, rotation: rotation, textColor1: textColor1, textColor2: textColor2, textBackgroundColor: textBackgroundColor, backgroundColor: backgroundColor)
                     }
 //                }
             }
     }
     
     @ViewBuilder
-    private func second(content: Content, text: String, rotation: Double) -> some View {
+    private func second(content: Content, text: String, rotation: Double, textColor1: Color, textColor2: Color, textBackgroundColor: Color, backgroundColor: Color) -> some View {
         ZStack {
-            let color1 = Color(red: 80/255, green: 5/255, blue: 232/255) // blue
-            let color2 = Color(red: 151/255, green: 4/255, blue: 209/255) // purple
             Rectangle()
-                .fill(color1)
+                .fill(backgroundColor)
             
             ZStack {
                 if #available(iOS 18, *) {
@@ -59,9 +66,9 @@ struct FullScreenTitleModifier: ViewModifier {
                                 [0.0, 0.5], [innerTrigger2 ? 0.2 : 0.5, 0.5], [0.6, 0.5], [1.0, 0.5],
                                 [0.0, 1.0], [0.3, 1.0], [6.0, 1.0], [1.0, 1.0]
                             ], colors: [
-                                color1, color2, color1, color2,
-                                color1, innerTrigger2 ? color2 : color1, color1, color1,
-                                color1, color2, color1, color2
+                                textColor1, textColor2, textColor1, textColor2,
+                                textColor1, innerTrigger2 ? textColor2 : textColor1, textColor1, textColor1,
+                                textColor1, textColor2, textColor1, textColor2
                             ],
                                          smoothsColors: true,
                                          colorSpace: .perceptual
@@ -69,7 +76,6 @@ struct FullScreenTitleModifier: ViewModifier {
                             .mask {
                                 Text(text)
                                     .font(.system(size: 100, weight: .black))
-                                    .foregroundStyle(.purple)
                                     .fixedSize()
                                     .offset(x: innerTrigger2 ? -300 : 200)
                             }
@@ -78,13 +84,13 @@ struct FullScreenTitleModifier: ViewModifier {
                 } else {
                     Text(text)
                         .font(.system(size: 100, weight: .black))
-                        .foregroundStyle(.purple)
+                        .foregroundStyle(textColor1)
                         .fixedSize()
                         .padding(5)
                         .offset(x: innerTrigger2 ? -300 : 200)
                 }
             }
-            .background(.black, in: .rect)
+            .background(textBackgroundColor, in: .rect)
         }
         .opacity(innerTrigger ? 1.0 : 0.0)
         .onChange(of: trigger) { value in
@@ -107,7 +113,7 @@ struct FullScreenTitleModifier: ViewModifier {
     }
     
     @ViewBuilder
-    private func first(content: Content, text: String, rotation: Double) -> some View {
+    private func first(content: Content, text: String, rotation: Double, textColor: Color, textBorderColor: Color, backgroundColor1: Color, backgroundColor2: Color) -> some View {
         ZStack {
             Rectangle()
                 .fill(.regularMaterial)
@@ -119,7 +125,7 @@ struct FullScreenTitleModifier: ViewModifier {
                     ZStack {
                         let screenWidth = reader.size.width
                         Rectangle()
-                            .fill(.blue)
+                            .fill(backgroundColor1)
                             .frame(width: screenWidth, height: 50)
                             .scaleEffect(x: 1.2)
                         //                                    .opacity(innerTrigger ? 1.0 : -3.0)
@@ -127,7 +133,7 @@ struct FullScreenTitleModifier: ViewModifier {
                             .rotation3DEffect(.degrees(3), axis: (x: 1, y: 0, z: 0), perspective: 10)
                             .rotationEffect(.degrees(innerTrigger ? 0 : 20))
                         Rectangle()
-                            .fill(.red)
+                            .fill(backgroundColor2)
                             .frame(width: screenWidth, height: 50)
                             .scaleEffect(x: 1.2)
                         //                                    .opacity(innerTrigger ? 1.0 : -3.0)
@@ -138,14 +144,14 @@ struct FullScreenTitleModifier: ViewModifier {
                         Text(text)
                             .font(font)
                             .fontWeight(.black)
-                            .foregroundStyle(color)
+                            .foregroundStyle(textColor)
                             .scaleEffect(innerTrigger ? 2 * intensity : 0.1)
                         //                                    .opacity(innerTrigger ? 1.0 : -3.0)
                             .offset(y: 30)
-                            .shadow(color: .white, radius: 0, x: 3, y: 0)
-                            .shadow(color: .white, radius: 0, x: -3, y: 0)
-                            .shadow(color: .white, radius: 0, x: 0, y: 3)
-                            .shadow(color: .white, radius: 0, x: 0, y: -3)
+                            .shadow(color: textBorderColor, radius: 0, x: 3, y: 0)
+                            .shadow(color: textBorderColor, radius: 0, x: -3, y: 0)
+                            .shadow(color: textBorderColor, radius: 0, x: 0, y: 3)
+                            .shadow(color: textBorderColor, radius: 0, x: 0, y: -3)
                     }
                     .rotationEffect(.degrees(innerTrigger ? rotation : 0))
                     .opacity(innerTrigger ? 1.0 : 0.0)
@@ -184,9 +190,9 @@ struct FullScreenTitleModifier: ViewModifier {
 }
 
 public extension View {
-    public func fullScreenTitleEffect(_ kind: FullScreenTitleKind, trigger: Binding<Bool>, color: Color = .black, font: Font = .title, intensity: Double = 1.0, speedMultiplier: Double = 1.0, pause: Double = 2.0) -> some View {
+    public func fullScreenTitleEffect(_ kind: FullScreenTitleKind, trigger: Binding<Bool>, font: Font = .title, intensity: Double = 1.0, speedMultiplier: Double = 1.0, pause: Double = 2.0) -> some View {
         self
-            .modifier(FullScreenTitleModifier(kind: kind, trigger: trigger, color: color, font: font, intensity: intensity, speedMultiplier: speedMultiplier, pause: pause))
+            .modifier(FullScreenTitleModifier(kind: kind, trigger: trigger, font: font, intensity: intensity, speedMultiplier: speedMultiplier, pause: pause))
     }
 }
 

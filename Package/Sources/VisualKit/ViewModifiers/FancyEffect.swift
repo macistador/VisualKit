@@ -12,7 +12,7 @@ public enum FancyEffect {
     case shake(angle: Angle = .zero)
 }
 
-public enum FancyEffectRepeat {
+public enum EffectRepeat {
     case none
     case count(Int, pause: Double = 0, pauseEvery: Int = 1)
     case forever(pause: Double = 0, pauseEvery: Int = 1)
@@ -42,6 +42,7 @@ public enum FancyEffectRepeat {
     }
 }
 
+@available(iOS 16.0, *)
 struct FancyEffectModifier: ViewModifier {
     
     @Binding var trigger: Bool
@@ -51,7 +52,7 @@ struct FancyEffectModifier: ViewModifier {
     let effect: FancyEffect
     let intensity: Double
     let speedMultiplier: Double
-    let repeatEffect: FancyEffectRepeat
+    let repeatEffect: EffectRepeat
     let rotation: Double
     let duration: Double = 0.3
     @State private var animationTask: Task<(), Never>?
@@ -143,7 +144,7 @@ struct FancyEffectModifier: ViewModifier {
     }
     
     private func resetAnimation() async {
-        withAnimation(.easeOut(duration: 0.1)) {
+        await animate(duration: 0.1) {
             self.xScale = 1
             self.yScale = 1
             self.xOffset = 0
@@ -172,7 +173,7 @@ struct FancyEffectModifier: ViewModifier {
                 return
             }
             await animationBlock()
-            if #available(iOS 16.0, *), repeatEffect.pause > 0, index % repeatEffect.pauseEvery == 0 {
+            if repeatEffect.pause > 0, index % repeatEffect.pauseEvery == 0 {
                 await resetAnimation()
                 try? await Task.sleep(for: .seconds(repeatEffect.pause))
             }
@@ -189,26 +190,15 @@ struct FancyEffectModifier: ViewModifier {
             self.xOffset = -offset
         }
     }
-    
-    private func animate(duration: CGFloat, _ execute: @escaping () -> Void) async {
-        await withCheckedContinuation { continuation in
-            withAnimation(.linear(duration: duration)) {
-                execute()
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                continuation.resume()
-            }
-        }
-    }
 }
 
+@available(iOS 16.0, *)
 public extension View {
     public func fancyEffect(trigger: Binding<Bool>,
                             effect: FancyEffect,
                             intensity: Double = 1.0,
                             speedMultiplier: Double = 1.0,
-                            repeatEffect: FancyEffectRepeat = .none,
+                            repeatEffect: EffectRepeat = .none,
                             rotation: Double = 0) -> some View {
         self
             .modifier(FancyEffectModifier(trigger: trigger,
@@ -221,7 +211,10 @@ public extension View {
 }
 
 #Preview {
-    Text("Hello, world!")
-        .fancyEffect(trigger: .constant(false), effect: .shake())
+    if #available(iOS 16.0, *) {
+        Text("Hello, world!")
+            .fancyEffect(trigger: .constant(false), effect: .shake())
+    } else {
+        // Fallback on earlier versions
+    }
 }
-

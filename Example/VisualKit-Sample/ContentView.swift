@@ -199,15 +199,27 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
+                        ReflectionEffectDemo()
+                    } label: {
+                        Text("ReflectionEffect")
+                    }
+
+                    NavigationLink {
+                        RaysEffectDemo()
+                    } label: {
+                        Text("RaysEffect")
+                    }
+                    
+                    NavigationLink {
                         DistorsionEffectDemo()
                     } label: {
                         Text("DistorsionEffect")
                     }
                     
                     NavigationLink {
-                        RaysEffectDemo()
+                        AnimatedShapeViewDemo()
                     } label: {
-                        Text("RaysEffect")
+                        Text("AnimatedShapeView")
                     }
                     
                     NavigationLink {

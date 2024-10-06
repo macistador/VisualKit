@@ -22,6 +22,7 @@ struct RaysEffectModifier: ViewModifier {
 //    let shape: ShapeKind
     let effectKind: RaysEffectKind
     @Binding var trigger: Bool
+    let color: Color
     @State var innerPositionTrigger: Bool = false
     @State var innerVisibilityTrigger: Bool = false
     let intensity: Double = 1.0
@@ -30,8 +31,29 @@ struct RaysEffectModifier: ViewModifier {
     let duration: Double = 0.3
     let length: Double = 6
     let raysCount: Int = 20
+    let thisRaysCount: Int
     let offset: Double = 60
+    let thisRotations: [Int]
+    let thisThickness: [Int]
 
+    init(effectKind: RaysEffectKind, trigger: Binding<Bool>, color: Color = .blue) {
+        self.effectKind = effectKind
+        self._trigger = trigger
+        self.color = color
+        self.thisRaysCount = Int.random(in: 10...20)
+        var thisRotations: [Int] = []
+        for id in 0...thisRaysCount {
+            thisRotations.append(Int.random(in: 0...360))
+        }
+        self.thisRotations = thisRotations
+
+        var thisThickness: [Int] = []
+        for id in 0...thisRaysCount {
+            thisThickness.append(Int.random(in: 6...30))
+        }
+        self.thisThickness = thisThickness
+    }
+    
     public func body(content: Content) -> some View {
         content
             .background(alignment: .center) {
@@ -44,33 +66,33 @@ struct RaysEffectModifier: ViewModifier {
                         flexEffectView(content: content, length: length, offset: offset)
                     }
                 }
+                .offset(x: length / 2, y: 0)
             }
     }
     
     @ViewBuilder
     private func flexEffectView(content: Content, length: Double, offset: Double, extraDelay: Double = 0) -> some View {
-        let thisRaysCount = Int.random(in: 6...10)
-        let length = 800.0
-        let height = Int.random(in: 6...10)
+        let length = 1000.0
         let offset = 1000.0
-        ForEach(0...thisRaysCount, id: \.self) { id in
-            let thisRotation = Int.random(in: 0...360)
+        
+        return ForEach(0...thisRaysCount, id: \.self) { id in
+            let thisRotation = Double(thisRotations[id])
             RoundedRectangle(cornerRadius: 0)
-                .fill(.blue)
-                .frame(width: length, height: Double(height))
-                .scaleEffect(innerPositionTrigger ? 1.0 : 0.1)
+                .fill(color)
+                .frame(width: length, height: Double(thisThickness[id]))
                 .offset(x: innerPositionTrigger ? offset : 0, y: 0)
+                .scaleEffect(innerPositionTrigger ? 1.0 : 0.1, anchor: .leading)
                 .rotationEffect(.degrees(Double(thisRotation)), anchor: .leading)
+                .opacity(innerVisibilityTrigger ? 1 : 0)
                 .offset(x: length / 2, y: 0)
-//                .opacity(innerVisibilityTrigger ? 1 : 0)
         }
         .onChange(of: trigger) { value in
-            guard trigger == true else { return }
             innerPositionTrigger = false
             innerVisibilityTrigger = false
-            let duration = 2.0
+            let duration = 0.3
             
-            withAnimation(.linear(duration: duration / speedMultiplier).delay(extraDelay)) {
+            guard value == true else { return }
+            withAnimation(.easeOut(duration: duration / speedMultiplier).delay(extraDelay)) {
                 innerPositionTrigger = true
                 innerVisibilityTrigger = true
             }
@@ -90,12 +112,11 @@ struct RaysEffectModifier: ViewModifier {
     private func simpleEffectView(content: Content, length: Double, offset: Double, extraDelay: Double = 0) -> some View {
         ForEach(0...raysCount, id: \.self) { id in
             RoundedRectangle(cornerRadius: 20)
-                .fill(.blue)
+                .fill(color)
                 .frame(width: length, height: 4)
                 .scaleEffect(innerPositionTrigger ? 1.0 : 0.1)
                 .offset(x: innerPositionTrigger ? offset : 0, y: 0)
                 .rotationEffect(.degrees(Double(id * 360 / raysCount)), anchor: .leading)
-                .offset(x: length / 2, y: 0)
                 .opacity(innerVisibilityTrigger ? 1 : 0)
         }
         .onChange(of: trigger) { value in

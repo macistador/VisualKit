@@ -25,26 +25,26 @@ struct GenericButtonDemo: View {
             VStack {
                 Spacer()
                 
-                GenericButton(title: "Default") {
+                GenericButton("Default") {
                     print("Button tapped")
                 }
                 .padding(.horizontal, 40)
                 
-                GenericButton(title: "Primary".uppercased(),
+                GenericButton("Primary".uppercased(),
                               style: .primary(destructive: false),
                               state: $buttonState,
                               colors: someSpecificColors,
                               cornerRadius: 5,
-                              borderWidth: 0,
+                              borderWidth: 2,
                               fontSize: 20,
-                              reliefStyle: .none,
+                              reliefStyle: .shadow,
                               hasHaptic: false,
                               isAnimated: false) {
                     print("Button tapped")
                 }
                               .padding(.horizontal, 40)
                 
-                GenericButton(title: "Primary destructive",
+                GenericButton("Primary destructive",
                               style: .primary(destructive: true),
                               state: $buttonState,
                               fontSize: 18) {
@@ -52,7 +52,7 @@ struct GenericButtonDemo: View {
                 }
                               .padding(.horizontal, 40)
                 
-                GenericButton(title: "Secondary",
+                GenericButton("Secondary",
                               style: .secondary(destructive: false),
                               state: $buttonState,
                               colors: GenericButton.Colors(secondaryButton: buttonTapped ? .green : nil, secondaryButtonText: buttonTapped ? .green : nil)) {
@@ -61,7 +61,7 @@ struct GenericButtonDemo: View {
                 }
                               .padding(.horizontal, 40)
                 
-                GenericButton(title: "Secondary destructive",
+                GenericButton("Secondary destructive",
                               style: .secondary(destructive: true),
                               state: $buttonState,
                               fontSize: 16) {
@@ -69,14 +69,14 @@ struct GenericButtonDemo: View {
                 }
                               .padding(.horizontal, 40)
                 
-                GenericButton(title: "Tertiary",
+                GenericButton("Tertiary",
                               style: .tertiary(destructive: false),
                               state: $buttonState) {
                     print("Button tapped")
                 }
                               .padding(.horizontal, 40)
                 
-                GenericButton(title: "Tertiary destructive",
+                GenericButton("Tertiary destructive",
                               style: .tertiary(destructive: true),
                               state: $buttonState) {
                     print("Button tapped")
@@ -92,9 +92,10 @@ struct GenericButtonDemo: View {
                 .padding(.vertical)
 
                 VStack(spacing: 20) {
-                    GenericButton(title: text,
+                    GenericButton(text,
                                   style: .primary(destructive: false),
                                   state: $buttonState,
+                                  colors: relief == .shadow ? GenericButton.Colors(primaryButton: .clear, primaryButtonText: Color.primaryButtonText) : nil,
                                   cornerRadius: cornerRadius,
                                   borderWidth: borderWidth,
                                   fontSize: fontSize,

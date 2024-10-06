@@ -36,6 +36,8 @@
 		14852AAD2CAF0AB600ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AAC2CAF0AB600ADB395 /* VisualKit */; };
 		14852AB02CAFEDBF00ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AAF2CAFEDBF00ADB395 /* VisualKit */; };
 		14852AB52CAFEFBE00ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AB42CAFEFBE00ADB395 /* VisualKit */; };
+		14852ABA2CB2932300ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852AB92CB2932300ADB395 /* VisualKit */; };
+		14852ABD2CB29C7900ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14852ABC2CB29C7900ADB395 /* VisualKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,7 @@
 				140F20EC2CA0056D00555CF7 /* VisualKit in Frameworks */,
 				14852A4F2CABEC0700ADB395 /* VisualKit in Frameworks */,
 				14852AAD2CAF0AB600ADB395 /* VisualKit in Frameworks */,
+				14852ABD2CB29C7900ADB395 /* VisualKit in Frameworks */,
 				148529FE2CA466D100ADB395 /* VisualKit in Frameworks */,
 				140F21142CA0997E00555CF7 /* VisualKit in Frameworks */,
 				14852AB02CAFEDBF00ADB395 /* VisualKit in Frameworks */,
@@ -79,6 +82,7 @@
 				14852A522CABF0E300ADB395 /* VisualKit in Frameworks */,
 				140F20F72CA00CE200555CF7 /* VisualKit in Frameworks */,
 				14852A4A2CAAF34100ADB395 /* VisualKit in Frameworks */,
+				14852ABA2CB2932300ADB395 /* VisualKit in Frameworks */,
 				14852AB52CAFEFBE00ADB395 /* VisualKit in Frameworks */,
 				14852A182CA80E2500ADB395 /* VisualKit in Frameworks */,
 				14852A102CA47CFA00ADB395 /* VisualKit in Frameworks */,
@@ -168,6 +172,8 @@
 				14852AAC2CAF0AB600ADB395 /* VisualKit */,
 				14852AAF2CAFEDBF00ADB395 /* VisualKit */,
 				14852AB42CAFEFBE00ADB395 /* VisualKit */,
+				14852AB92CB2932300ADB395 /* VisualKit */,
+				14852ABC2CB29C7900ADB395 /* VisualKit */,
 			);
 			productName = "VisualKit-Sample";
 			productReference = 140F20CE2CA0054100555CF7 /* VisualKit-Sample.app */;
@@ -198,7 +204,7 @@
 			mainGroup = 140F20C52CA0054100555CF7;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				14852AB32CAFEFBE00ADB395 /* XCLocalSwiftPackageReference "../Package" */,
+				14852ABB2CB29C7900ADB395 /* XCLocalSwiftPackageReference "../Package" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 140F20CF2CA0054100555CF7 /* Products */;
@@ -449,7 +455,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		14852AB32CAFEFBE00ADB395 /* XCLocalSwiftPackageReference "../Package" */ = {
+		14852ABB2CB29C7900ADB395 /* XCLocalSwiftPackageReference "../Package" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Package;
 		};
@@ -569,6 +575,14 @@
 			productName = VisualKit;
 		};
 		14852AB42CAFEFBE00ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852AB92CB2932300ADB395 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14852ABC2CB29C7900ADB395 /* VisualKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = VisualKit;
 		};
