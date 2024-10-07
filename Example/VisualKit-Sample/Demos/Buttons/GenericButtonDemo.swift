@@ -35,7 +35,7 @@ struct GenericButtonDemo: View {
                               state: $buttonState,
                               colors: someSpecificColors,
                               cornerRadius: 5,
-                              borderWidth: 2,
+                              borderWidth: 4,
                               fontSize: 20,
                               reliefStyle: .shadow,
                               hasHaptic: false,

@@ -12,6 +12,7 @@ struct VisualKit_SampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            OnboardingSlideshowViewDemo()
         }
     }
 }

@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var containersSection = true
     @State var textSection = true
     @State var decorationsSection = true
+    @State var onboardingSection = true
     @State var viewsSection = true
     @State var othersSection = true
     @State var viewModifiersSection = true
@@ -116,6 +117,26 @@ struct ContentView: View {
                         ChipsStackDemo()
                     } label: {
                         Text("ChipsStack")
+                    }
+                }
+                
+                Section("Onboarding", isExpanded: $onboardingSection) {
+                    NavigationLink {
+                        OnboardingSlideshowViewDemo(style: .first)
+                    } label: {
+                        Text("OnboardingSlideshow (Style 1)")
+                    }
+                    
+                    NavigationLink {
+                        OnboardingSlideshowViewDemo(style: .second)
+                    } label: {
+                        Text("OnboardingSlideshow (Style 2)")
+                    }
+                    
+                    NavigationLink {
+                        OnboardingDropSlideshowViewDemo()
+                    } label: {
+                        Text("OnboardingDropSlideshow")
                     }
                 }
                 
@@ -248,6 +269,7 @@ struct ContentView: View {
                         containersSection.toggle()
                         textSection.toggle()
                         decorationsSection.toggle()
+                        onboardingSection.toggle()
                         viewsSection.toggle()
                         othersSection.toggle()
                         viewModifiersSection.toggle()
