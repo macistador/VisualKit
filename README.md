@@ -40,7 +40,7 @@ Contains generic SwiftUI components and view modifiers.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/macistador/VisualKit/Package", from: "0.0.2")
+    .package(url: "https://github.com/macistador/VisualKit", from: "0.0.3")
 ]
 ```
 

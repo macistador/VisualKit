@@ -12,6 +12,7 @@
 		140F20F22CA0097200555CF7 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 140F20F12CA0097200555CF7 /* VisualKit */; };
 		140F20F72CA00CE200555CF7 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 140F20F62CA00CE200555CF7 /* VisualKit */; };
 		140F21142CA0997E00555CF7 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 140F21132CA0997E00555CF7 /* VisualKit */; };
+		14649F162CB6BDE30085E23B /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14649F152CB6BDE30085E23B /* VisualKit */; };
 		148529EC2CA0B23800ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 148529EB2CA0B23800ADB395 /* VisualKit */; };
 		148529F12CA4503700ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 148529F02CA4503700ADB395 /* VisualKit */; };
 		148529F42CA4581300ADB395 /* VisualKit in Frameworks */ = {isa = PBXBuildFile; productRef = 148529F32CA4581300ADB395 /* VisualKit */; };
@@ -75,6 +76,7 @@
 				14852AAD2CAF0AB600ADB395 /* VisualKit in Frameworks */,
 				14852ABD2CB29C7900ADB395 /* VisualKit in Frameworks */,
 				148529FE2CA466D100ADB395 /* VisualKit in Frameworks */,
+				14649F162CB6BDE30085E23B /* VisualKit in Frameworks */,
 				140F21142CA0997E00555CF7 /* VisualKit in Frameworks */,
 				14852AB02CAFEDBF00ADB395 /* VisualKit in Frameworks */,
 				148529F72CA45A2400ADB395 /* VisualKit in Frameworks */,
@@ -174,6 +176,7 @@
 				14852AB42CAFEFBE00ADB395 /* VisualKit */,
 				14852AB92CB2932300ADB395 /* VisualKit */,
 				14852ABC2CB29C7900ADB395 /* VisualKit */,
+				14649F152CB6BDE30085E23B /* VisualKit */,
 			);
 			productName = "VisualKit-Sample";
 			productReference = 140F20CE2CA0054100555CF7 /* VisualKit-Sample.app */;
@@ -204,7 +207,7 @@
 			mainGroup = 140F20C52CA0054100555CF7;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				14852ABB2CB29C7900ADB395 /* XCLocalSwiftPackageReference "../Package" */,
+				14649F142CB6BDE30085E23B /* XCLocalSwiftPackageReference "../../VisualKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 140F20CF2CA0054100555CF7 /* Products */;
@@ -455,9 +458,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		14852ABB2CB29C7900ADB395 /* XCLocalSwiftPackageReference "../Package" */ = {
+		14649F142CB6BDE30085E23B /* XCLocalSwiftPackageReference "../../VisualKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Package;
+			relativePath = ../../VisualKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -479,6 +482,10 @@
 			productName = VisualKit;
 		};
 		140F21132CA0997E00555CF7 /* VisualKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VisualKit;
+		};
+		14649F152CB6BDE30085E23B /* VisualKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = VisualKit;
 		};

@@ -12,7 +12,9 @@ struct FullScreenTitleEffectDemo: View {
    
     @State var effectTrigger: Bool = false
     @State var effectTrigger2: Bool = false
-    
+    @State var effectTrigger3: Bool = false
+    @State var effectTrigger4: Bool = false
+
     var body: some View {
         VStack(spacing: 40) {
             Spacer()
@@ -31,6 +33,20 @@ struct FullScreenTitleEffectDemo: View {
             }
             .buttonStyle(.borderedProminent)
 
+            Button {
+                effectTrigger3 = true
+            } label: {
+                Text("Shoot third")
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Button {
+                effectTrigger4 = true
+            } label: {
+                Text("Shoot fourth")
+            }
+            .buttonStyle(.borderedProminent)
+            
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -38,6 +54,8 @@ struct FullScreenTitleEffectDemo: View {
         .navigationTitle("FullScreenTitleEffect")
         .fullScreenTitleEffect(.first(text: "Whaouu!"), trigger: $effectTrigger)
         .fullScreenTitleEffect(.second(text: "WELL DONE!"), trigger: $effectTrigger2)
+        .fullScreenTitleEffect(.third(text: "COMPLETED"), trigger: $effectTrigger3)
+        .fullScreenTitleEffect(.fourth(text: "DONE", textBorderColor: .pink), trigger: $effectTrigger4)
         .ignoresSafeArea()
     }
 }

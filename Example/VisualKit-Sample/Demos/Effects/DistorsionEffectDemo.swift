@@ -29,12 +29,18 @@ struct DistorsionEffectDemo: View {
                     .padding(.horizontal, 40)
                     .snakeEffect()
                     .padding(.vertical)
-                
+                                
                 Capsule()
                     .fill(snakeColor)
                     .padding(.horizontal, 40)
                     .snakeEffect(thickness: 10, effectAmplitude: 10, effectSpeed: 2, effectInversedFrequency: 100)
                     .padding(.vertical)
+                
+                Text("SOME TITLE")
+                    .font(.system(size: 40, weight: .black, design: .rounded))
+                    .foregroundStyle(.green.gradient)
+                    .snakeEffect()
+                    .padding(40)
                 
                 Button {
                     animate.toggle()
