@@ -312,7 +312,7 @@ struct FullScreenTitleModifier: ViewModifier {
             
             let durationMax = duration / 8
             for x in 0..<6 {
-                withAnimation(.linear(duration: durationMax).delay(Double(x) * durationMax * 0.8)) {
+                withAnimation(.bouncy(duration: durationMax).delay(Double(x) * durationMax * 0.8)) {
                     animateValueMax = x
                 }
             }

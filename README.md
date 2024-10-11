@@ -1,6 +1,10 @@
 # VisualKit
 Contains generic SwiftUI components and view modifiers.
 
+<p align="center">
+  <img src="https://github.com/macistador/VisualKit/blob/main/IconVisualKit.png" width="300" height="300"/>
+</p>
+
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
