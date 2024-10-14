@@ -9,6 +9,7 @@ Contains generic SwiftUI components and view modifiers.
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Other packages](#other-packages)
 - [Credits](#credits)
 - [License](#license)
 
@@ -53,6 +54,22 @@ dependencies: [
 ### Preview
 
 Please have a look at the sample project for detailed examples.
+
+## Other packages
+
+Meanwhile this library works well alone, it is meant to be complementary to the following app bootstrap packages suite: 
+
+- [CoreKit](https://github.com/macistador/CoreKit)
+- [DesignKit](https://github.com/macistador/DesignKit)
+- [VisualKit](https://github.com/macistador/VisualKit)
+- [MediasKit](https://github.com/macistador/MediasKit)
+- [CameraKit](https://github.com/macistador/CameraKit)
+- [PermissionsKit](https://github.com/macistador/PermissionsKit)
+- [SocialKit](https://github.com/macistador/SocialKit)
+- [AnalyzeKit](https://github.com/macistador/AnalyzeKit)
+- [IntelligenceKit](https://github.com/macistador/IntelligenceKit)
+- [AdsKit](https://github.com/macistador/AdsKit)
+- [PayKit](https://github.com/macistador/PayKit)
 
 ## Credits
 
