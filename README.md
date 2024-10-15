@@ -59,17 +59,19 @@ Please have a look at the sample project for detailed examples.
 
 Meanwhile this library works well alone, it is meant to be complementary to the following app bootstrap packages suite: 
 
-- [CoreKit](https://github.com/macistador/CoreKit)
-- [DesignKit](https://github.com/macistador/DesignKit)
-- [VisualKit](https://github.com/macistador/VisualKit)
-- [MediasKit](https://github.com/macistador/MediasKit)
-- [CameraKit](https://github.com/macistador/CameraKit)
-- [PermissionsKit](https://github.com/macistador/PermissionsKit)
-- [SocialKit](https://github.com/macistador/SocialKit)
-- [AnalyzeKit](https://github.com/macistador/AnalyzeKit)
-- [IntelligenceKit](https://github.com/macistador/IntelligenceKit)
-- [AdsKit](https://github.com/macistador/AdsKit)
-- [PayKit](https://github.com/macistador/PayKit)
+- [CoreKit](https://github.com/macistador/CoreKit): Foundation app requirements: Routing, State management, logging...
+- [BackendKit](https://github.com/macistador/BackendKit): Handling remote requests, authentication for Firebase / Supabase
+- [DesignKit](https://github.com/macistador/DesignKit): DesignSystem
+- [VisualKit](https://github.com/macistador/VisualKit): UI components (SwiftUI Views, ViewModifiers)
+- [MediasKit](https://github.com/macistador/MediasKit): Loading, caching & displaying Images, Videos, Audios
+- [CameraKit](https://github.com/macistador/CameraKit): Capturing photos, videos and audio with effects
+- [PermissionsKit](https://github.com/macistador/PermissionsKit): User permissions handling
+- [SocialKit](https://github.com/macistador/SocialKit): Share, invite friends
+- [CartoKit](https://github.com/macistador/CartoKit): Locate, display maps
+- [AnalyzeKit](https://github.com/macistador/AnalyzeKit): Analytics
+- [IntelligenceKit](https://github.com/macistador/IntelligenceKit): Integrate embedded AI models
+- [AdsKit](https://github.com/macistador/AdsKit): Displaying ads
+- [PayKit](https://github.com/macistador/PayKit): Handling paywalls & inApps
 
 ## Credits
 
